@@ -5,9 +5,17 @@ const port = 8080
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-    res.send(`Server Up & Running :)<br/>
+
+    res.send(
+    	`
+HELLO! Server Up & Running :)<br/>
 Try this command to test POST requests work too:<br/>
-curl --header "Content-Type: application/json"   --request POST   --data '{"username":"xyz","password":"xyz"}'   http://localhost:8080`)
+curl --header "Content-Type: application/json"   --request POST   --data '{"username":"xyz","password":"xyz"}'   http://localhost:8080
+
+`
+)
+
+    
 })
 
 app.post('/', (req, res) => {
