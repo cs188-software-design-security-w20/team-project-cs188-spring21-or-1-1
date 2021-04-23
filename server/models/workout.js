@@ -48,7 +48,7 @@ function validateWorkout(workout) {
         workouts: Joi.array().items(Joi.number()),
         privacy: Joi.number()
     };
-    return validateUser(workout, schema);
+    return validateWorkout(workout, schema);
 }
 
 exports.Workout = Workout;
