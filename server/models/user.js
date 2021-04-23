@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const UserModel = mongoose.model('User', new mongoose.Schema({
+const User = mongoose.model('User', new mongoose.Schema({
     username: {
         type: String,
         required: true,
