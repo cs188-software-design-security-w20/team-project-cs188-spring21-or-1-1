@@ -36,7 +36,7 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form>
+  <form  id="login-form">
     <img class="mb-4" src="./GUI/symbol.jpg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 fw-normal">Work.I.O</h1>
     <b>
@@ -55,7 +55,7 @@
       </label>
     </div>
     <div>
-         <button class="w-75 btn btn-lg btn-primary " type="submit">Sign in</button>
+         <button class="w-75 btn btn-lg btn-primary " type="submit" value= "login"id = "logIn-submit">Sign in</button>
     </div>
     Not a member?  
     <a href="/signup"> register! </a>  
@@ -63,8 +63,22 @@
     <p class="mt-5 mb-3 text-muted">&copy; 2021-present</p>
   </form>
 </main>
-<script>
-  
+<script type="text/javascript">
+
+  const loginForm = document.getElementById("login-form")
+  function logIncheck(){
+    const username = document.getElementById("floatingInput").value;
+    const password = document.getElementById("floatingPassword").value;
+
+  }
+
+
+  const logInBtn = document.getElementById("logIn-submit");
+  logInBtn.addEventListener('click', logIncheck,false);
+ // var username = document.getElementById("floatingInput");
+ // var password = document.getElementById("floatingPassword");
+  console.log("Welcome in");
+
 
 </script>
     
