@@ -1,6 +1,10 @@
 const app = require('express')()
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const queryProfile = require('./controllers/profile').queryProfile
 const port = 8080
+
+mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
 
 app.use(bodyParser.json())
 
@@ -19,6 +23,16 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     res.send(JSON.stringify(req.body, null, 2))
+})
+
+// Need to build around session tokens later, but rn just returns schema of user
+app.get('/profile/:username', (req, res) => {
+    let profile = queryProfile(req.params.username)
+    if (profile) {
+	res.send(profile)
+	return
+    }
+    res.send("ERROR: Profile does not exist")
 })
 
 app.listen(port, () => {
