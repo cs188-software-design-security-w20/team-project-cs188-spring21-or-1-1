@@ -1,12 +1,14 @@
-const app = require('express')()
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const queryProfile = require('./controllers/profile').queryProfile
-const port = 8080
+const app = require('express')();
+const bodyParser = require('body-parser');
+const queryProfile = require('./controllers/profile').queryProfile;
+const login = require('./controllers/login'); // for login 
+const port = 4000;
 
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
 
-app.use(bodyParser.json())
+
+require("./config/dbConnection")();//open the mongo db 
+
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send(
@@ -15,10 +17,7 @@ app.get('/', (req, res) => {
   Try this command to test POST requests work too:<br/>
   curl --header "Content-Type: application/json"   --request POST   --data '{"username":"xyz","password":"xyz"}'   http://localhost:8080
   `
-  )
-
-
-    
+  ) 
 });
 
 app.post('/', (req, res) => {
@@ -34,6 +33,9 @@ app.get('/profile/:username', (req, res) => {
     }
     res.send("ERROR: Profile does not exist")
 })
+
+// login controller wired, not done yet.
+app.use("/login", login); 
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)

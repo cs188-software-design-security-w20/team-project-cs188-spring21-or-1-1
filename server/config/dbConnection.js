@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const localDBurl = "" //database url 
+const localDBurl = "mongodb://127.0.0.1:27017/test" //database url 
 
 
-
-const MongoServer = async() =>{
+const MongoServer = async() =>{	
 	try{
-		await mongoose.connect(url, {useNewUrlParser: true});
+		await mongoose.connect(localDBurl, {useNewUrlParser: true, useUnifiedTopology: true });
+
 		const db = mongoose.connection
 		db.once('open', _ => {
 			console.log("MongoDB initiated");
@@ -16,10 +16,10 @@ const MongoServer = async() =>{
 			console.log("MongoDB initiation failed");
 		});		
 	} catch(e){
-		console.log(e);
+		//console.log(e);
 		throw e;
 	}
-};
 
+};
 
 module.exports = MongoServer;
