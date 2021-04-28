@@ -10,6 +10,7 @@ const Workout_Plan = mongoose.model('Workout_Model', new mongoose.Schema({
     },
     planId: {
         type: Number,
+        unique: true,
         required: true,
     },
     name: {
