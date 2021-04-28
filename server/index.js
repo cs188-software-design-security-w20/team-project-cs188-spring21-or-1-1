@@ -3,8 +3,12 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const queryProfile = require('./controllers/profile').queryProfile
 const port = 8080
+const plans = require('./controllers/plans')
+const seeder = require('./config/seed')
 
 mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
+
+seeder().catch(error => console.log(error.stack));
 
 app.use(bodyParser.json())
 
@@ -17,8 +21,6 @@ app.get('/', (req, res) => {
   `
   )
 
-
-    
 });
 
 app.post('/', (req, res) => {
@@ -34,6 +36,11 @@ app.get('/profile/:username', (req, res) => {
     }
     res.send("ERROR: Profile does not exist")
 })
+
+
+app.get('/plans/:planId', plans.getPlan)
+app.post('/plans', plans.createPlan)
+
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
