@@ -1,10 +1,12 @@
 
-const app = require('express')()
+const express = require('express')
+const app = express()
+const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const queryProfile = require('./controllers/profile').queryProfile
 const login = require('./controllers/login'); // for login 
-const port = 4000
+const port = 8080
 const plans = require('./controllers/plans')
 const seeder = require('./config/seed')
 var router = require("express").Router();
@@ -14,9 +16,6 @@ require("./config/dbConnection")();//open the mongo db
 seeder().catch(error => console.log(error.stack));
 
 app.use(bodyParser.json())
-
-const express = require('express')
-const path = require('path')
 
 app.use('/css',express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
