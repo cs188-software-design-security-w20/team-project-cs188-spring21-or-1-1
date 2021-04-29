@@ -29,3 +29,19 @@ exports.createPlan = function (req, res, next) {
     })
     //redirect to home page?
 }
+
+
+exports.editPlan = function (req, res, next) {
+    let planInfo = req.body
+    let planId = req.params.planId
+    //set planId to unique number id here.
+    Workout_Plan.update({planId: planId}, planInfo, (err, plan) => {
+        if (err) {
+            res.status(400) //bad request
+            return res.send({message: err.toString()});
+        }
+        res.status(201)
+        res.send("Workout Plan Edied")
+    })
+    //redirect to home page?
+}

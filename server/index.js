@@ -43,7 +43,7 @@ app.use("/login", login);
 
 app.get('/plans/:planId', plans.getPlan)
 app.post('/plans', plans.createPlan)
-
+app.post('/plans/:planId', plans.editPlan)
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
