@@ -22,9 +22,12 @@ app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/
 //app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')))
 app.use(express.static(__dirname + '/view/Frontend'));
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
+
+// login controller wired, not done yet.
+app.use("/login", login); 
 
 app.use("/",router);
 
@@ -42,8 +45,7 @@ app.get('/profile/:username', (req, res) => {
     res.send("ERROR: Profile does not exist")
 })
 
-// login controller wired, not done yet.
-app.use("/login", login); 
+
 
 app.get('/plans/:planId', plans.getPlan)
 app.post('/plans', plans.createPlan)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const localDBurl = "mongodb://127.0.0.1:27017/workout-users" //database url 
+const localDBurl = "mongodb://127.0.0.1:27017/workIO-users" //database url 
 
 
 const MongoServer = async() =>{	
