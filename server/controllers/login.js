@@ -19,8 +19,9 @@ async function getUser(User, email){
 }
 
 function hasUser(user){
-	if(!user)
+	if(!user){
 		return res.status(400).json({message: "we dont have this user"});
+	}
 }
 
 //uses password hash function for password verification 

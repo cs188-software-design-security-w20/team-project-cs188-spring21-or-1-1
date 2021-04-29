@@ -4,9 +4,10 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const queryProfile = require('./controllers/profile').queryProfile
 const login = require('./controllers/login'); // for login 
-const port = 8080
+const port = 4000
 const plans = require('./controllers/plans')
 const seeder = require('./config/seed')
+var router = require("express").Router();
 
 require("./config/dbConnection")();//open the mongo db 
 
@@ -14,15 +15,19 @@ seeder().catch(error => console.log(error.stack));
 
 app.use(bodyParser.json())
 
+const express = require('express')
+const path = require('path')
+
+app.use('/css',express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
+app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
+//app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')))
+app.use(express.static(__dirname + '/view/Frontend'));
+
 app.get('/', (req, res) => {
-    res.send(
-  `
-  HELLO! Server Up & Running :)<br/>
-  Try this command to test POST requests work too:<br/>
-  curl --header "Content-Type: application/json"   --request POST   --data '{"username":"xyz","password":"xyz"}'   http://localhost:8080
-  `
-  )
+    res.sendFile('signIn.html',{root:'view/Frontend'});
 });
+
+app.use("/",router);
 
 app.post('/', (req, res) => {
     res.send(JSON.stringify(req.body, null, 2))
