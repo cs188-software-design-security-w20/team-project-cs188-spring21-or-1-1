@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const localDBurl = "" //database url 
+const localDBurl = "localhost:27017" //database url 
 
 
 

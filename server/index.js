@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const queryProfile = require('./controllers/profile').queryProfile
 const port = 8080
 const plans = require('./controllers/plans')
+const registration = require('./controllers/register')
 const seeder = require('./config/seed')
 
 mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true})
@@ -37,6 +38,8 @@ app.get('/profile/:username', (req, res) => {
     res.send("ERROR: Profile does not exist")
 })
 
+// May refactor this later, handling responses should probably be here and not in the controller
+app.post('/register', registration.registerUser)
 
 app.get('/plans/:planId', plans.getPlan)
 app.post('/plans', plans.createPlan)
