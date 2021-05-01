@@ -1,20 +1,38 @@
 
+
+/* Core modules */
+
 const express = require('express')
 const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const queryProfile = require('./controllers/profile').queryProfile
-//const login = require('./controllers/login'); // for login 
+
+/* Controller modules */
+
+const profileController = require('./controllers/profile')
+// const loginController = require('./controllers/login'); // for login 
+const planController = require('./controllers/plans')
+const registrationController = require('./controllers/register')
+
+/* Security modules */
+
+// Issues for these are still out
+
+
+
+
+/* Configuration */
 const port = 8080
-const plans = require('./controllers/plans')
-const registration = require('./controllers/register')
 const seeder = require('./config/seed')
-var router = require("express").Router();
 
 require("./config/dbConnection")();//open the mongo db 
-
 seeder().catch(error => console.log(error.stack));
+
+
+
+
+/* Express Middleware */
 
 app.use(bodyParser.json())
 
@@ -23,6 +41,11 @@ app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/
 //app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')))
 app.use(express.static(__dirname + '/view/Frontend'));
 
+
+
+
+/* Route Handlers */
+
 app.get('/login', (req, res) => {
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
@@ -30,39 +53,22 @@ app.get('/login', (req, res) => {
 // login controller wired, not done yet.
 //app.use("/login", login); 
 
-app.use("/",router);
-
-app.post('/', (req, res) => {
-    res.send(JSON.stringify(req.body, null, 2))
-})
-
 // Need to build around session tokens later, but rn just returns schema of user
-app.get('/profile/:username', (req, res) => {
-    let profile = queryProfile(req.params.username)
-    if (profile) {
-	res.send(profile)
-	return
-    }
-    res.send("ERROR: Profile does not exist")
-})
+app.get('/profile/:username', profileController.queryProfile)
+
+// NOTE: Please check out controllers/profile.js for how to get your
+//       code to work line-by-line, it has to do with async/await
+//       and its worth the investment trying to figure out why profile.js
+//       works so you can write your own controllers in a way that works for Node
 
 // May refactor this later, handling responses should probably be here and not in the controller
-app.post('/register', registration.registerUser)
+app.post('/register', registrationController.registerUser)
 
 
-app.get('/plans/:planId', plans.getPlan)
-app.post('/plans', plans.createPlan)
+app.get('/plans/:planId', planController.getPlan)
+app.post('/plans', planController.createPlan)
 
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
 })
-
-/* Steps to install:
-   1. All you need installed for now is node and npm (node package manager)
-   2. In this directory (./server) run 'npm install'.
-      Now you should have a directory called 'node_modules' which contains 
-      all the required packages above. 
-   3. Run 'node index.js' and the server should say it's running on port 8080,
-      you can run a GET request of localhost:8080 to check it's working properly
-*/

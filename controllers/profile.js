@@ -1,12 +1,14 @@
 const mongoose = require('mongoose')
 const User = require('../models/user.js').User
 
-function queryProfile(username) {
-    User.findOne({ 'username': username }, (err, user) => {
-	if (err || !user)
-	    return false
-	return user
-    })
+async function queryProfile(req, res) {
+    try {
+	let profile = await User.findOne({ 'username': req.params.username })
+	res.send(profile)
+    } catch (err) {
+	console.log(err)
+	res.send("ERROR: User does not exist")
+    }    
 }
 
 exports.queryProfile = queryProfile
