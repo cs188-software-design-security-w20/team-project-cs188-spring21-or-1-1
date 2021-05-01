@@ -5,7 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const queryProfile = require('./controllers/profile').queryProfile
-const login = require('./controllers/login'); // for login 
+//const login = require('./controllers/login'); // for login 
 const port = 8080
 const plans = require('./controllers/plans')
 const registration = require('./controllers/register')
@@ -28,7 +28,7 @@ app.get('/login', (req, res) => {
 });
 
 // login controller wired, not done yet.
-app.use("/login", login); 
+//app.use("/login", login); 
 
 app.use("/",router);
 
