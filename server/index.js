@@ -8,6 +8,7 @@ const queryProfile = require('./controllers/profile').queryProfile
 const login = require('./controllers/login'); // for login 
 const port = 8080
 const plans = require('./controllers/plans')
+const registration = require('./controllers/register')
 const seeder = require('./config/seed')
 var router = require("express").Router();
 
@@ -45,6 +46,8 @@ app.get('/profile/:username', (req, res) => {
     res.send("ERROR: Profile does not exist")
 })
 
+// May refactor this later, handling responses should probably be here and not in the controller
+app.post('/register', registration.registerUser)
 
 
 app.get('/plans/:planId', plans.getPlan)
