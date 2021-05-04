@@ -13,14 +13,15 @@ login
 */
 
 //find user with mongoose medium
-async function getUser(User, email){
-	let user = await User.findOne({email});
+async function getUser(User, username){
+	let user = await User.findOne({username});
 	return user;
 }
 
 function hasUser(user){
-	if(!user)
+	if(!user){
 		return res.status(400).json({message: "we dont have this user"});
+	}
 }
 
 //uses password hash function for password verification 
@@ -40,19 +41,21 @@ function hasError(req){
 }
 
 router.post(
-	"../../Prject/Work.I.O-Frontend/signIn",
+	"/login",
 	[
-
+		
 	],
 
 	//error checker
 	async (req, res) => {
+		console.log("rendered login.js with signIn");
+
 		if(hasError(req))
 			return res.status(400).json({err: err.array()});
 
-		const {email, password} = req.body;
+		const {username, password} = req.body;
 		try{
-			user = getUser(User, email);
+			user = getUser(User, username);
 			hasUser(user);
 			//cyption verification done 
 			if(!isMatch()){

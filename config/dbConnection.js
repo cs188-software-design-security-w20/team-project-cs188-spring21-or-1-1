@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const localDBurl = "mongodb://127.0.0.1:27017/test" //database url 
-
+const localDBurl = "mongodb://localhost:27017/test" //database url 
 
 const MongoServer = async() =>{	
 	try{
