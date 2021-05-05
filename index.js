@@ -67,7 +67,8 @@ app.post('/register', registrationController.registerUser)
 
 app.get('/plans/:planId', planController.getPlan)
 app.post('/plans', planController.createPlan)
-
+app.post('/plans/:planId', planController.editPlan)
+app.delete('/plans/:planId',planController.deletePlan)
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
