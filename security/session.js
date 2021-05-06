@@ -5,6 +5,8 @@ const Session = require('../models/sessions.js').Session
 async function authenticateSession(req, res, next) {
     try {
 	let result = await Session.findOne({ 'token': req.cookies.token })
+	//await when fetching the data from database. 
+	
 	if (!result) {
 	    res.redirect('/login')
 	    return

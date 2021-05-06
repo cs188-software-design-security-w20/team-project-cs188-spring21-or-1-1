@@ -18,6 +18,7 @@ const registrationController = require('./controllers/register')
 
 /* Security modules */
 const sessionModule = require('./security/session.js')
+const pswModule = require('./security/pswModule.js')
 
 
 
@@ -52,7 +53,9 @@ app.get('/login', (req, res) => {
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
 
-app.post('/login', sessionModule.createSession); //verify password within createSession
+app.post('/login',pswModule.pswVerification ,sessionModule.createSession); 
+//verify password within createSession 
+//put the password ver
 
 // login controller wired, not done yet.
 //app.use("/login", login); 
