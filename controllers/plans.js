@@ -17,6 +17,24 @@ exports.getPlan = function (req, res) {
     })    
 }
 
+exports.getPlansByDifficulty = function(difficulty) {
+    Workout_Plan.find({ 'difficulty': difficulty }, (err, plans) => {
+        if (err || !plans) {
+            return false
+        }
+        return plans
+    })    
+}
+
+exports.getPlansByName = function(name) {
+    Workout_Plan.find({ 'name': name }, (err, plans) => {
+        if (err || !plans) {
+            return false
+        }
+        return plans
+    })    
+}
+
 exports.createPlan = function (req, res, next) {
     let planInfo = req.body
     //set planId to unique number id here.
