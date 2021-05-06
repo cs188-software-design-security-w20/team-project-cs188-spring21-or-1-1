@@ -48,10 +48,11 @@ app.use(express.static(__dirname + '/view/Frontend'));
 /* Route Handlers */
 
 app.get('/login', (req, res) => {
+	console.log("getting the login ");
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
 
-app.post('/login', sessionModule.createSession)
+app.post('/login', sessionModule.createSession); //verify password within createSession
 
 // login controller wired, not done yet.
 //app.use("/login", login); 

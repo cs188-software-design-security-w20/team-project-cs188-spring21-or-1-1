@@ -32,7 +32,7 @@ exports.registerUser = async function (req, res) {
         }
         else {
             bcrypt.hash(user.password, salt, function(err, hash) {
-                if ( err) {
+                if (err) {
                     console.log(err);
                     return res.status(422).json({err});
                 }
