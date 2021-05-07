@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const User = require('../models/user').User
 const Plan = require('../models/workout_plan').Workout_Plan
+const Workout = require('../models/workout').Workout
 
 module.exports = async function run() {
     await mongoose.connection.dropDatabase();
@@ -10,6 +11,8 @@ module.exports = async function run() {
   
     await Plan.create({ username: 'Blake', planId: '12345', name: 'back workout' });
     await Plan.create({ username: 'Hunter', planId: '123456', name: 'chest workout' });
+
+    await Workout.create({ username: 'Blake', planId: '12345', workoutId: '1', privacy: '1'})
   }
 
 

@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser')
 const profileController = require('./controllers/profile')
 // const loginController = require('./controllers/login'); // for login 
 const planController = require('./controllers/plans')
+const workoutController = require('./controllers/workouts')
 const registrationController = require('./controllers/register')
 
 /* Security modules */
@@ -68,9 +69,12 @@ app.post('/register', registrationController.registerUser)
 
 //app.use('/plans', sessionModule.authenticateSession)
 app.get('/plans/:planId', planController.getPlan)
+app.get('/plans/:planId/:workoutId', workoutController.getWorkout)
 app.post('/plans', planController.createPlan)
 app.post('/plans/:planId', planController.editPlan)
 app.delete('/plans/:planId',planController.deletePlan)
+
+
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
