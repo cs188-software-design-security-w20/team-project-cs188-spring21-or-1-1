@@ -33,7 +33,6 @@ exports.hashGen = async function (user, saltRounds){
 }
 
 //2. commit: psw verification 
-
 exports.pswVerification = async function(req, res, next){
 	try{
 
@@ -57,7 +56,7 @@ exports.pswVerification = async function(req, res, next){
 
 	}catch(err){
 		console.log(err)
-		res.redirect('/login');
+		res.status(500).json({message: "server is having some difficulties"});
 	}
 }
 

@@ -25,33 +25,7 @@ exports.registerUser = async function (req, res) {
         return res.status(400).send("That username already taken!");
     }
     
-    // Generate password salt
+    // Generate password salt for security I moved this to the security module
     pswMaker.hashGen(user,saltRounds);
 
-    // bcrypt.genSalt(saltRounds, function (err, salt) {
-    //     if ( err ) {
-    //         console.log(err);
-    //         return res.status(422).json({err});
-    //     }
-    //     else {
-    //         bcrypt.hash(user.password, salt, function(err, hash) {
-    //             if (err) {
-    //                 console.log(err);
-    //                 return res.status(422).json({err});
-    //             }
-    //             else {
-    //                 user.password = hash;
-    //                 user.save(function (err, user) {
-    //                     if (err) {
-    //                         console.log("Error inserting into database");
-    //                         res.status(422).json({err});
-    //                     }
-    //                     console.log(user.username + " added to the database");
-    //                     console.log(user.email + " email added to the database");
-    //                     res.send("User successfully registered");
-    //                 })
-    //             }
-    //         })
-    //     }
-    // })
 }

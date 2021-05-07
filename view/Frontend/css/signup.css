@@ -1,0 +1,75 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 400px;
+  background-color: #f5f5f5;
+}
+
+.form-signup {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signup .checkbox {
+  font-weight: 400;
+}
+
+.form-signup .fontReform{
+  font-weight: 10000;
+  font-size:15px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+
+}
+
+.form-signup .selectbox{
+  font-weight: 300;
+
+}
+
+.form-signup .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signup select[type="select"] {
+  margin-bottom: -10px;
+  border-bottom-right-radius: 10;
+  border-bottom-left-radius: 10;
+  max-height: 35px;
+}
+
+.form-signup input[type="Date"] {
+  margin-bottom: -20px;
+  border-bottom-right-radius: 10;
+  border-bottom-left-radius: 10;
+  max-height: 35px;
+}
+
+.form-signup input[type="text"] {
+  margin-bottom: -20px;
+  border-bottom-right-radius: 10;
+  border-bottom-left-radius: 10;
+  max-height: 35px;
+}
+
+.form-signup input[type="email"] {
+  margin-bottom: -20px;
+  border-bottom-right-radius: 10;
+  border-bottom-left-radius: 10;
+  max-height: 35px;
+}
+
+.form-signup input[type="password"] {
+  margin-bottom: -20px;
+  border-top-left-radius: 10;
+  border-top-right-radius: 10;
+  max-height: 35px;
+}
