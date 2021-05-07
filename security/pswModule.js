@@ -4,19 +4,19 @@ const mongoose = require('mongoose')
 const User = require("../models/user.js").User
 
 
-function hashGen(user, saltRounds){
-	bcrypt.genSalt(saltRounds, function(err, salt) {
+exports.hashGen = async function (user, saltRounds){
+	bcrypt.genSalt(saltRounds, async function(err, salt) {
 		if(err){
 			console.log(err);
 			return res.status(422).json({err});
 		}else{
-			bcrypt.has(user.password, salt, function(err, hash){
+			bcrypt.has(user.password, salt, async function(err, hash){
 				if(err){
 					console.log(err);
 	                return res.status(422).json({err});
 				}else {
 	                    user.password = hash;
-	                    await user.save(function (err, user) {
+	                    await user.save(async function (err, user) {
 	                        if (err) {
 	                            console.log("Error inserting into database");
 	                            res.status(422).json({err});
@@ -34,9 +34,11 @@ function hashGen(user, saltRounds){
 
 //2. commit: psw verification 
 
-function pswVerification(req, res, next){
+exports.pswVerification = async function(req, res, next){
 	try{
+
 		let user = await User.findOne({'username': req.body.username})
+		console.log("linked db")
 		if(!user){
 			res.redirect('/login');
 			console.log("no username found");
@@ -46,7 +48,8 @@ function pswVerification(req, res, next){
 		psw = req.body.password
 
 		if((await bcrypt.compare(psw, user.password)))
-			next()
+			next();
+
 		else {
 			res.redirect('/login'); 
 			console.log("incorrect password");

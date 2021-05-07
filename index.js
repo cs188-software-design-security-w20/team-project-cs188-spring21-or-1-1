@@ -18,7 +18,7 @@ const registrationController = require('./controllers/register')
 
 /* Security modules */
 const sessionModule = require('./security/session.js')
-const pswModule = require('./security/pswModule.js')
+const pwModule = require('./security/pswModule.js')
 
 
 
@@ -53,7 +53,7 @@ app.get('/login', (req, res) => {
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
 
-app.post('/login',pswModule.pswVerification ,sessionModule.createSession); 
+app.post('/login',pwModule.pswVerification, sessionModule.createSession); 
 //verify password within createSession 
 //put the password ver
 
