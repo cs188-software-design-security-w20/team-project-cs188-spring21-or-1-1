@@ -66,7 +66,10 @@ app.get('/profile', sessionModule.authenticateSession, profileController.queryPr
 //       code to work line-by-line, it has to do with async/await
 //       and its worth the investment trying to figure out why profile.js
 //       works so you can write your own controllers in a way that works for Node
-
+app.get('/register', (req, res)=>{
+	console.log("getting the signUp");
+	res.sendFile('signUp.html', {root: 'view/Frontend'});
+});
 // May refactor this later, handling responses should probably be here and not in the controller
 app.post('/register', registrationController.registerUser)
 

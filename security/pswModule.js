@@ -5,12 +5,13 @@ const User = require("../models/user.js").User
 
 
 exports.hashGen = async function (user, saltRounds){
+	console.log("calling psw Gen");
 	bcrypt.genSalt(saltRounds, async function(err, salt) {
 		if(err){
 			console.log(err);
 			return res.status(422).json({err});
 		}else{
-			bcrypt.has(user.password, salt, async function(err, hash){
+			bcrypt.hash(user.password, salt, async function(err, hash){
 				if(err){
 					console.log(err);
 	                return res.status(422).json({err});
@@ -23,13 +24,14 @@ exports.hashGen = async function (user, saltRounds){
 	                    }
                         console.log(user.username + " added to the database");
                         console.log(user.email + " email added to the database");
-                        res.send("User successfully registered");
-                        res.redirect('/login')
+                        //res.send("User successfully registered");
+                        return true;
 	            })
 			}
 		})
 	   }
 	})
+	return false;
 }
 
 //2. commit: psw verification 

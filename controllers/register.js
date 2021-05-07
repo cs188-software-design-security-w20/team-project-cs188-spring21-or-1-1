@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
 exports.registerUser = async function (req, res) {
+    console.log("calling the controller");
     let user = new User({
         username: req.body.username,
         password: req.body.password,
@@ -26,6 +27,7 @@ exports.registerUser = async function (req, res) {
     }
     
     // Generate password salt for security I moved this to the security module
-    pswMaker.hashGen(user,saltRounds);
+    if(pswMaker.hashGen(user,saltRounds))
+        res.redirect('/login');
 
 }
