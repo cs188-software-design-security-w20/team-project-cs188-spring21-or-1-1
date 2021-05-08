@@ -46,8 +46,8 @@ const Workout_Plan = mongoose.model('Workout_Model', new mongoose.Schema({
     }
 }));
 
-function validateWorkoutPlan(workout) {
-    const schema = {
+function validateWorkoutPlan(workout_plan) {
+    const schema = Joi.object({
         username: Joi.string().required().max(30),
         planId: Joi.number().required(),
         name: Joi.string().min(0).max(300).required(),
@@ -57,8 +57,8 @@ function validateWorkoutPlan(workout) {
         bodyParts: Joi.array().items(Joi.string()),
         workouts: Joi.array().items(Joi.number()),
         privacy: Joi.number()
-    };
-    return validateWorkoutPlan(workout, schema);
+    }).unknown();
+    return schema.validate(workout_plan);
 }
 
 exports.Workout_Plan = Workout_Plan;
