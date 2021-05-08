@@ -19,6 +19,7 @@ const registrationController = require('./controllers/register')
 
 /* Security modules */
 const sessionModule = require('./security/session.js')
+const pwModule = require('./security/pswModule.js')
 
 
 
@@ -49,10 +50,13 @@ app.use(express.static(__dirname + '/view/Frontend'));
 /* Route Handlers */
 
 app.get('/login', (req, res) => {
+	console.log("getting the login ");
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
 
-app.post('/login', sessionModule.createSession)
+app.post('/login',pwModule.pswVerification, sessionModule.createSession); 
+//verify password within createSession 
+//put the password ver
 
 // login controller wired, not done yet.
 //app.use("/login", login); 
@@ -63,7 +67,10 @@ app.get('/profile', sessionModule.authenticateSession, profileController.queryPr
 //       code to work line-by-line, it has to do with async/await
 //       and its worth the investment trying to figure out why profile.js
 //       works so you can write your own controllers in a way that works for Node
-
+app.get('/register', (req, res)=>{
+	console.log("getting the signUp");
+	res.sendFile('signUp.html', {root: 'view/Frontend'});
+});
 // May refactor this later, handling responses should probably be here and not in the controller
 app.post('/register', registrationController.registerUser)
 

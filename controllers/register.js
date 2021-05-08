@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 const { User, validate } = require('../models/user.js')
+const pswMaker = require('../security/pswModule.js')
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
 exports.registerUser = async function (req, res) {
+    console.log("calling the controller");
     let user = new User({
         username: req.body.username,
         password: req.body.password,
@@ -24,33 +26,8 @@ exports.registerUser = async function (req, res) {
         return res.status(400).send("That username already taken!");
     }
     
-    // Generate password salt
-    bcrypt.genSalt(saltRounds, function (err, salt) {
-        if ( err ) {
-            console.log(err);
-            return res.status(422).json({err});
-        }
-        else {
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if ( err) {
-                    console.log(err);
-                    return res.status(422).json({err});
-                }
-                else {
-                    user.password = hash;
-                    user.save(function (err, user) {
-                        if (err) {
-                            console.log("Error inserting into database");
-                            res.status(422).json({err});
-                        }
-                        console.log(user.username + " added to the database");
-                        console.log(user.email + " email added to the database");
-                        res.send("User successfully registered");
-                    })
-                }
-            })
-        }
-    })
+    // Generate password salt for security I moved this to the security module
+    if(pswMaker.hashGen(user,saltRounds))
+        res.redirect('/login');
 
-    
 }
