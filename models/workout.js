@@ -11,8 +11,8 @@ const Workout = mongoose.model('Workout', new mongoose.Schema({
         type: Number,
         required: true,
     },
-    workoutId: {
-        type: Number,
+    name: {
+        type: String,
         required: true,
     },
     description: {
@@ -44,18 +44,19 @@ const Workout = mongoose.model('Workout', new mongoose.Schema({
 }));
 
 function validateWorkout(workout) {
-    const schema = {
+    const schema = Joi.object({
         username: Joi.string().required().max(30),
         planId: Joi.number().required(),
-        workoutId: Joi.number().required(),
+        name: Joi.string().required(),
         description: Joi.string().min(0).max(5000),
         type: Joi.string().min(0).max(100),
         difficulty: Joi.number().min(0).max(10),
         bodyParts: Joi.array().items(Joi.string()),
         workouts: Joi.array().items(Joi.number()),
         privacy: Joi.number().min(0).max(2)
-    };
-    return validateWorkout(workout, schema);
+    }).unknown();
+    
+    return schema.validate(workout);
 }
 
 exports.Workout = Workout;

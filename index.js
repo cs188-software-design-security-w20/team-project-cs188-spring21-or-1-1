@@ -76,10 +76,15 @@ app.post('/register', registrationController.registerUser)
 
 //app.use('/plans', sessionModule.authenticateSession)
 app.get('/plans/:planId', planController.getPlan)
-app.get('/plans/:planId/:workoutId', workoutController.getWorkout)
 app.post('/plans', planController.createPlan)
-app.post('/plans/:planId', planController.editPlan)
+app.put('/plans/:planId', planController.editPlan)
 app.delete('/plans/:planId',planController.deletePlan)
+
+//This is getting messy. Will deal with clean up later.
+app.get('/plans/:planId/:workoutId', workoutController.getWorkout)
+app.post('/plans/:planId', workoutController.createWorkout)
+app.put('/plans/:planId/:workoutId', workoutController.editWorkout)
+app.delete('/plans/:planId/:workoutId', workoutController.deleteWorkout)
 
 
 
