@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Workout_Plan = require('../models/workout_plan').Workout_Plan
 const Workout = require('../models/workout').Workout
 const User = require('../models/user').User
+const sessionModule = require('../security/session')
 //TODO: All functions in this module require token authentication
 
 async function getPlan (req, res) {
@@ -12,7 +13,11 @@ async function getPlan (req, res) {
 		console.log("Workout plan not found")
 		return res.status(401).send("Workout plan not found")
 	}
-	let username = "Hunter" // TODO: get from session
+	let username = await sessionModule.getUserByToken(req.cookies.token)
+    if (!username) {
+        console.log("getUserByToken failed")
+        return res.status(401).send("Not logged in");
+    }
 	let valid = await validateUserPrivilege(req.params.planId, username, 'r')
 	if(!valid) {
 		console.log("Not allowd to view")
@@ -23,7 +28,11 @@ async function getPlan (req, res) {
 
 async function createPlan(req, res, next) {
     let planInfo = req.body
-	planInfo.username = "Hunter" //TODO: get from session
+	planInfo.username = await sessionModule.getUserByToken(req.cookies.token)
+    if (!planInfo.username) {
+        console.log("getUserByToken failed")
+        return res.status(401).send("Not logged in");
+    }
 	planInfo.workouts = []
 	
 	if(!validateWorkoutPlan(planInfo)){
@@ -45,9 +54,12 @@ async function createPlan(req, res, next) {
 async function editPlan (req, res, next) {
     let planInfo = req.body
     let planId = req.params.planId
-    planInfo.username = "Hunter" // to be changed: get uername from session info
-	let username = planInfo.username
-    //add username to planInfo	
+	let username = await sessionModule.getUserByToken(req.cookies.token)
+    if (!username) {
+        console.log("getUserByToken failed")
+        return res.status(401).send("Not logged in");
+    }
+    planInfo.username = username // to be changed: get uername from session info
 
 	if (!validateWorkoutPlan(planInfo)) {
 		res.status(400)
@@ -73,7 +85,11 @@ async function editPlan (req, res, next) {
 
 async function deletePlan(req, res, next) {
     let planId = req.params.planId
-    let username = "Hunter" // to be changed: get uername from session info
+    let username = await sessionModule.getUserByToken(req.cookies.token)
+    if (!username) {
+        console.log("getUserByToken failed")
+        return res.status(401).send("Not logged in");
+    }
 	let valid = await validateUserPrivilege(planId, username, 'w')
 	console.log(valid)
 	if (!valid){
