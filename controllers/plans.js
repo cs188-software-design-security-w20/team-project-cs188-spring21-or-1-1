@@ -4,7 +4,6 @@ const Workout_Plan = require('../models/workout_plan').Workout_Plan
 const Workout = require('../models/workout').Workout
 const User = require('../models/user').User
 const sessionModule = require('../security/session')
-//TODO: All functions in this module require token authentication
 
 async function getPlan (req, res) {
 	console.log(req.params.planId)
@@ -83,6 +82,7 @@ async function editPlan (req, res, next) {
     })
 }
 
+//TODO:delete everthing in one transaction
 async function deletePlan(req, res, next) {
     let planId = req.params.planId
     let username = await sessionModule.getUserByToken(req.cookies.token)

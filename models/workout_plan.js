@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-
+ 
 const Workout_Plan = mongoose.model('Workout_Model', new mongoose.Schema({
     username: {
         type: String,
