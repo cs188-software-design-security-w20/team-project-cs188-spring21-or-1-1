@@ -8,11 +8,6 @@ const Workout_Plan = mongoose.model('Workout_Model', new mongoose.Schema({
         // consider setting min length for username
         maxlength: 30
     },
-    planId: {
-        type: Number,
-        unique: true,
-        required: true,
-    },
     name: {
         type: String,
         minlength: 0,
@@ -49,7 +44,6 @@ const Workout_Plan = mongoose.model('Workout_Model', new mongoose.Schema({
 function validateWorkoutPlan(workout_plan) {
     const schema = Joi.object({
         username: Joi.string().required().max(30),
-        planId: Joi.number().required(),
         name: Joi.string().min(0).max(300).required(),
         description: Joi.string().min(0).max(5000),
         type: Joi.string().min(0).max(100),
