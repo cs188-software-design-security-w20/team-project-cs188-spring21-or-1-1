@@ -1,13 +1,17 @@
 
 
-/* Core modules */
+/* Get environment variables */
+require('dotenv').config()
 
+/* Core modules */
 const express = require('express')
 const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const https = require('https')
+const fs = require('fs')
 
 /* Controller modules */
 
@@ -23,8 +27,7 @@ const pwModule = require('./security/pswModule.js')
 
 
 
-/* Configuration */
-const port = 8080
+/* DB Configuration */
 const seeder = require('./config/seed')
 
 require("./config/dbConnection")();//open the mongo db 
@@ -88,6 +91,17 @@ app.delete('/plans/:planId/:workoutId', workoutController.deleteWorkout)
 
 
 
-app.listen(port, () => {
+/* Server Start Up */
+const port = 443 // HTTPS Only
+https.createServer({
+    key: fs.readFileSync(process.env.KEY_PATH),
+    cert: fs.readFileSync(process.env.CERT_PATH)
+}, app).listen(port, () => {
     console.log(`Listening at port ${port}`)
 })
+
+/* Uncomment this for old, unsecure server */
+/*const port = 8080
+app.listen(port, () => {
+    console.log(`Listening at port ${port}`)
+})*/
