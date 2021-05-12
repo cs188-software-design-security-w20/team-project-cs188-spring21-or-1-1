@@ -44,9 +44,8 @@ async function createPlan(req, res, next) {
             return res.send({message: err.toString()});
         }
         res.status(201)
-        res.send("Workout Plan Created")
+        res.send(plan)
     })
-    //redirect to home page?
 }
 
 
@@ -102,7 +101,7 @@ async function deletePlan(req, res, next) {
 		return res.send("Workout plan not found!")
 	}
 	workouts = plan.workouts
-	console.log(workout)
+	console.log(workouts)
 	workouts.forEach(workout => {
 		console.log(workout)
 		Workout.findByIdAndRemove(workout, (err) => {
