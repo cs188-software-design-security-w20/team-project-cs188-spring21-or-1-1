@@ -37,13 +37,14 @@ getWorkout = async function(req, res) {
 createWorkout = async function(req, res) {
     try {
         let workout = req.body
-        let username = await sessionModule.getUserByToken(req.cookies.token)
+        // let username = "Hunter"
+	    let username = await sessionModule.getUserByToken(req.cookies.token)
         if (!username) {
             console.log("getUserByToken failed")
             return res.status(401).send("Not logged in");
         }
-        let plan = await Workout_Plan.findOne({'planId' : parseInt(req.params.planId)})
-        if (!plan) { 
+        let plan = await Workout_Plan.findById(req.params.planId)
+       if (!plan) { 
             console.log("Plan does not exist")
             return res.status(400).send("ERROR: Plan does not exist")
         }
@@ -59,14 +60,16 @@ createWorkout = async function(req, res) {
             return res.status(422).json({error});
         }
         //Good to go
-        Workout.create(workout, (err, workout) => {
+        let created_workout = await Workout.create(workout)
+        plan.workouts.push(created_workout._id)
+        console.log(plan.workouts)
+        Workout_Plan.findByIdAndUpdate(req.params.planId, {"workouts":plan.workouts}, (err, plan) => {
             if (err) {
-                res.status(400) 
+                res.status(400) //bad request
                 return res.send({message: err.toString()});
             }
-            //TODO: add workout id to workout_plan object's workouts array
-            res.status(201).send(workout)
         })
+        return res.send(created_workout)
 
     } catch (err) {
         console.log(err)
@@ -83,7 +86,7 @@ editWorkout = async function(req, res) {
             console.log("getUserByToken failed")
             return res.status(401).send("Not logged in");
         }
-        let plan = await Workout_Plan.findOne({'planId' : parseInt(req.params.planId)})
+        let plan = await Workout_Plan.findById(req.params.planId)
         if (!plan) { 
             console.log("Plan does not exist")
             return res.status(400).send("ERROR: Plan does not exist")
@@ -100,7 +103,7 @@ editWorkout = async function(req, res) {
             return res.status(422).json({error});
         }
         //Good to go
-        Workout.updateOne({"_id" : ObjectID(req.params.workoutId)}, { $set: updated_workout }, (err, workout) => {
+        Workout.findByIdAndUpdate(req.params.workoutId, updated_workout, (err, workout) => {
             if (err) {
                 res.status(400) 
                 return res.send({message: err.toString()});
@@ -123,23 +126,38 @@ deleteWorkout = async function(req, res) {
             console.log("getUserByToken failed")
             return res.status(401).send("Not logged in");
         }
-        let plan = await Workout_Plan.findOne({'planId' : parseInt(req.params.planId)})
+        let plan = await Workout_Plan.findById(req.params.planId)
         if (!plan) { 
             console.log("Plan does not exist")
             return res.status(400).send("ERROR: Plan does not exist")
         }
         if (username != plan.username) {
             res.status(401)
-            res.send("ERROR: Attempted to edit another user's workout plan")
+            return res.send("ERROR: Attempted to edit another user's workout plan")
+        }
+
+        const index = plan.workouts.indexOf(req.params.workoutId)
+        if(index > -1){
+            plan.workouts.splice(index,1)
+            Workout_Plan.findByIdAndUpdate(req.params.planId, {"workouts":plan.workouts}, (err, plan) => {
+                if (err) {
+                    res.status(400) //bad request
+                    return res.send({message: err.toString()});
+                }
+            })
+
+        } else {
+            res.status(401)
+            return res.send("ERROR: workout does not belong to the plan")
         }
         //TODO: Remove workout _id from Workout Plan's workout array
-        Workout.deleteOne({"_id" : ObjectID(req.params.workoutId)}, (err) => {
+        Workout.findByIdAndRemove(req.params.workoutId, (err) => {
             if (err) {
                 res.status(400) 
                 return res.send({message: err.toString()});
-            }
-            res.status(200).send("Workout Deleted")
+            } 
         })
+        return res.status(200).send("Workout Deleted")
 
     } catch (err) {
         console.log(err)
