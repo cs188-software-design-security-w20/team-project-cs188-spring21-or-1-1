@@ -8,7 +8,7 @@ const Workout = mongoose.model('Workout', new mongoose.Schema({
         maxlength: 30
     },
     planId: {
-        type: Number,
+        type: String,
         required: true,
     },
     name: {
@@ -46,7 +46,7 @@ const Workout = mongoose.model('Workout', new mongoose.Schema({
 function validateWorkout(workout) {
     const schema = Joi.object({
         username: Joi.string().required().max(30),
-        planId: Joi.number().required(),
+        planId: Joi.string().required(),
         name: Joi.string().required(),
         description: Joi.string().min(0).max(5000),
         type: Joi.string().min(0).max(100),
