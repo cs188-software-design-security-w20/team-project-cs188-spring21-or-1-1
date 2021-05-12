@@ -82,10 +82,10 @@ app.get('/register', (req, res)=>{
 app.post('/register', registrationController.registerUser)
 
 //app.use('/plans', sessionModule.authenticateSession)
-app.get('/plans/:planId', planController.getPlan)
-app.post('/plans', planController.createPlan)
-app.put('/plans/:planId', planController.editPlan)
-app.delete('/plans/:planId',planController.deletePlan)
+app.get('/plans/:planId', sessionModule.authenticateSession, planController.getPlan)
+app.post('/plans', sessionModule.authenticateSession, planController.createPlan)
+app.put('/plans/:planId', sessionModule.authenticateSession, planController.editPlan)
+app.delete('/plans/:planId',sessionModule.authenticateSession, planController.deletePlan)
 
 //This is getting messy. Will deal with clean up later.
 app.get('/plans/:planId/:workoutId', workoutController.getWorkout)
