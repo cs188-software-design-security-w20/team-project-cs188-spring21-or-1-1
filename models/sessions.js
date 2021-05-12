@@ -13,7 +13,7 @@ const Session = mongoose.model('Session', new mongoose.Schema({
     },
     createdAt: {
 	type: Date,
-	expires: '1m',
+	expires: '5m',
 	default: Date.now()
     }
 }));

@@ -35,7 +35,7 @@ async function createSession(req, res) {
 	    "Set-Cookie": "token="+sessionID+"; HttpOnly",
 	    "Access-Control-Allow-Credentials": "true"
 	})
-	res.redirect('/profile')
+	res.redirect('/')
     } catch (err) {
 	console.log(err)
 	res.send(err)
