@@ -41,6 +41,8 @@ seeder().catch(error => console.log(error.stack));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.set('view engine', 'ejs') // Necessary for rendering ejs
+app.set('views', path.join(__dirname, 'view'))
 
 app.use('/css',express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
@@ -53,7 +55,7 @@ app.use(express.static(__dirname + '/view/Frontend'));
 /* Route Handlers */
 
 app.get('/login', (req, res) => {
-	console.log("getting the login ");
+    console.log("getting the login ");
     res.sendFile('signIn.html',{root:'view/Frontend'});
 });
 
@@ -64,7 +66,9 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 // login controller wired, not done yet.
 //app.use("/login", login); 
 
+app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
 app.get('/profile', sessionModule.authenticateSession, profileController.queryProfile)
+app.get('/profile/:username', sessionModule.authenticateSession, profileController.queryUser)
 
 // NOTE: Please check out controllers/profile.js for how to get your
 //       code to work line-by-line, it has to do with async/await
