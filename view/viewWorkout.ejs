@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>View Workout </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            h5{display:inline}
+            .description{
+                float:left
+                }
+            .workout{
+                float:left
+            }
+        </style>
+
+        <body>
+            <h1>View Workout</h1>
+            <a href="https://workio.us/plans/<%=workout.planId%>">Back to plan</a> <hr>
+            <div class="description">
+                <h5>Name: </h5><%=workout.name%><br>
+                <h5>Author: </h5><%=workout.username%><br>
+                <h5>Description: </h5><%=workout.description%><br>
+                <h5>Type: </h5><%=workout.type%><br>
+                <h5>Difficulty: </h5><%=workout.difficulty%><br>
+                <h5>Body Parts: </h5><%=workout.bodyParts%><br>
+                <h5>Privacy: </h5>
+                <% if (workout.privacy == "0") {%>
+                    Public
+                <% } else if (workout.privacy == "1") {%>
+                    Private
+                <% } %><br>
+                <a href="https://workio.us/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
+                    Edit Workout</a>
+            </div>
+            
+            <div>
+
+            </div>
+        </body>
+    </head>
+</html>
