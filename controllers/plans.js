@@ -5,8 +5,8 @@ const Workout = require('../models/workout').Workout
 const User = require('../models/user').User
 const sessionModule = require('../security/session')
 
+
 async function getPlan (req, res) {
-	console.log(req.params.planId)
     let plan = await Workout_Plan.findById(req.params.planId)
     if (!plan) {
 		console.log("Workout plan not found")
@@ -19,10 +19,17 @@ async function getPlan (req, res) {
     }
 	let valid = await validateUserPrivilege(req.params.planId, username, 'r')
 	if(!valid) {
-		console.log("Not allowd to view")
+		console.log("Not allowed to view")
 		return res.status(401).send("Not authorzed")
 	}
-	res.send(plan)
+	let action = req.query.action
+	if (action == "edit") {
+		res.status(200).render('editPlan', {plan: plan})
+	} else if (action == "create") {
+		res.status(200).render('createWorkout', {planId: plan._id})
+	} else {
+		res.status(200).render('viewPlan', {plan: plan})
+	}
 }
 
 async function createPlan(req, res, next) {
@@ -43,8 +50,7 @@ async function createPlan(req, res, next) {
             res.status(400) //bad request
             return res.send({message: err.toString()});
         }
-        res.status(201)
-        res.send(plan)
+        res.status(201).redirect("/")
     })
 }
 
@@ -76,8 +82,7 @@ async function editPlan (req, res, next) {
             res.status(400) //bad request
             return res.send({message: err.toString()});
         }
-        res.status(201)
-        res.send("Workout Plan Edited")
+        res.status(201).redirect("/plans/" + planId)
     })
 }
 
@@ -152,7 +157,6 @@ function validateWorkoutPlan (planInfo) {
 	} 
 	return true
 }
-
 
 exports.getPlan = getPlan
 exports.createPlan = createPlan

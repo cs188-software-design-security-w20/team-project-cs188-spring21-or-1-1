@@ -28,10 +28,10 @@ const pwModule = require('./security/pswModule.js')
 
 
 /* DB Configuration */
-const seeder = require('./config/seed')
+//const seeder = require('./config/seed')
 
 require("./config/dbConnection")();//open the mongo db 
-seeder().catch(error => console.log(error.stack));
+//seeder().catch(error => console.log(error.stack));
 
 
 
@@ -82,17 +82,18 @@ app.get('/register', (req, res)=>{
 app.post('/register', registrationController.registerUser)
 
 //app.use('/plans', sessionModule.authenticateSession)
-app.get('/plans/:planId', sessionModule.authenticateSession, planController.getPlan)
+app.get('/plans/:planId/:action?', sessionModule.authenticateSession, planController.getPlan)
+app.get('/plans/:action?', sessionModule.authenticateSession, (req, res) => { if (req.query.action == "create") {res.status(200).render('createPlan')}})
 app.post('/plans', sessionModule.authenticateSession, planController.createPlan)
-app.put('/plans/:planId', sessionModule.authenticateSession, planController.editPlan)
+app.post('/plans/:planId', sessionModule.authenticateSession, planController.editPlan)
 app.delete('/plans/:planId',sessionModule.authenticateSession, planController.deletePlan)
 
-//This is getting messy. Will deal with clean up later.
-app.get('/plans/:planId/:workoutId', workoutController.getWorkout)
-app.post('/plans/:planId', workoutController.createWorkout)
-app.put('/plans/:planId/:workoutId', workoutController.editWorkout)
-app.delete('/plans/:planId/:workoutId', workoutController.deleteWorkout)
-
+app.get('/workouts/:planId/:workoutId/:action?', sessionModule.authenticateSession, workoutController.getWorkout)
+app.get('/workouts/:planId/:action?', sessionModule.authenticateSession, (req, res) => {
+    if (req.query.action == "create") {return res.status(200).render('createWorkout', {planId: req.params.planId})}})
+app.post('/workouts/:planId', sessionModule.authenticateSession, workoutController.createWorkout)
+app.post('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.editWorkout)
+app.delete('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.deleteWorkout)
 
 
 /* Server Start Up */
@@ -105,7 +106,7 @@ https.createServer({
 })
 
 /* Uncomment this for old, unsecure server */
-/*const port = 8080
-app.listen(port, () => {
-    console.log(`Listening at port ${port}`)
-})*/
+// const port = 8080
+// app.listen(port, () => {
+//     console.log(`Listening at port ${port}`)
+// })

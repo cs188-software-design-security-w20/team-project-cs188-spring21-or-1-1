@@ -15,11 +15,14 @@
 	    <p>Email: <%= email %></p>
 	    <ul>
 	    <% plans.forEach((plan) => { %>
-		<li><a href=<%= "https://workio.us/plan/" + plan.planId %> >
+		<li><a href=<%= "https://workio.us/plans/" + plan._id %> >
 		    Workout: <%= plan.name %> | Privacy Level: <%= plan.privacy %>
 		</a></li>
 	    <% }) %>
 	    </ul>
+		<a href="https://workio.us/plans?action=create">
+            Create New Plan</a>
+        </body>
 	</div>
     </body>
 </html>
