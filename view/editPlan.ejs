@@ -40,6 +40,8 @@
                     <label for="public">Public</label><br>
                     <input type="radio" id="private" name="privacy" value="1" <% if (plan.privacy == "1") { %> checked="checked" <% } %>>
                     <label for="private">Private</label><br>
+                    <input type="radio" id="subscribers only" name="privacy" value="2" <% if (plan.privacy == "2") { %> checked="checked" <% } %> >
+                    <label for="subscribers only">Subscribers Only</label><br>
                 </div>
                
                 <button type="submit" name="action">Submit</button> 
