@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>View Workout Plan </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            h5{display:inline}
+            .description{
+                float:left
+                }
+            .workout{
+                float:left
+            }
+        </style>
+
+        <body>
+            <h1>View Workout Plan</h1>
+            <a href="https://workio.us/">Home </a> <hr>
+            <div class="description">
+                <h5>Name: </h5><%=plan.name%><br>
+                <h5>Author: </h5><%=plan.username%><br>
+                <h5>Description: </h5><%=plan.description%><br>
+                <h5>Type: </h5><%=plan.type%><br>
+                <h5>Difficulty: </h5><%=plan.difficulty%><br>
+                <h5>Body Parts: </h5><%=plan.bodyParts%><br>
+                <h5>Privacy: </h5>
+                <% if (plan.privacy == "0") {%>
+                    Public
+                <% } else if (plan.privacy == "1") {%>
+                    Private
+                <% } %><br>
+                <a href="https://workio.us/plans/<%=plan._id%>?action=edit">
+                    Edit Plan Information</a>
+            </div>
+
+            <div class="workout">
+                <p>This plan includes the following workouts, in order: </p>
+                <% plan.workouts.forEach((workoutid, i) => { %>
+                    <li><a href=<%= "https://workio.us/workouts/" + plan._id + "/" + workoutid + "/view" %> >
+                        Workout <%=i+1%>
+                    </a></li>
+                <% }) %><br>
+                <a href="https://workio.us/workouts/<%=plan._id%>?action=create">
+                    Add New Workout</a>
+            </div>
+        
+        </body>
+    </head>
+</html>

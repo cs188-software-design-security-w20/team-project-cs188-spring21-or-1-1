@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Workout </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            h5{display:inline}
+        </style>
+
+        <body>
+            <h1>Edit Workout</h1> 
+
+            <form action='/workouts/<%= workout.planId%>/<%=workout._id%>' method='post'>
+               
+                <div>
+                    <label for="name">Name: </label><br>
+                    <input type="text" name="name" id="name" value="<%=workout.name %>">
+                </div>
+                <div>
+                    <label for="description">Description: </label><br>
+                    <textarea style="height: 20rem;" name="description" id="description"><%= workout.description %></textarea>
+                </div>
+                <div>
+                    <label for="type">Type: </label><br>
+                    <input type="radio" id="cardio" name="type" value="cardio" <% if (workout.type == "cardio") { %> checked="checked" <% } %> >
+                    <label for="cardio">Cardio</label><br>
+                    <input type="radio" id="strength" name="type" value="strength" <% if (workout.type == "strength") { %> checked="checked" <% } %>>
+                    <label for="strength">Strength</label><br>
+                    <input type="radio" id="endurance" name="type" value="endurace" <% if (workout.type == "endurance") { %> checked="checked" <% } %>>
+                    <label for="endurance">Endurance</label><br>
+                </div>
+                <div>
+                    <label for="difficulty">Difficulty (1-10): </label><br>
+                    <input type="number" name="difficulty" id="difficulty" value="<%=workout.difficulty %>" min="0" max="10">
+                </div>
+                <div>
+                    <label for="privacy">Privacy: </label><br>
+                    <input type="radio" id="public" name="privacy" value="0" <% if (workout.privacy == "0") { %> checked="checked" <% } %> >
+                    <label for="public">Public</label><br>
+                    <input type="radio" id="private" name="privacy" value="1" <% if (workout.privacy == "1") { %> checked="checked" <% } %>>
+                    <label for="private">Private</label><br>
+                </div>
+               
+                <button type="submit" name="action">Submit</button> 
+                <input type="hidden" name="username" id="username" value="<%=workout.username %>">
+
+            </form>
+
+        </body>
+    </head>
+</html>

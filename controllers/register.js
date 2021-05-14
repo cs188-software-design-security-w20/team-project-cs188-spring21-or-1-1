@@ -17,7 +17,7 @@ exports.registerUser = async function (req, res) {
     console.log(value);
     if ( error ) {
         console.log(error);
-        return res.status(422).json({error});
+        return res.status(422).send(error.message);
     }
 
     // Check if existing user is in the database

@@ -27,7 +27,12 @@ getWorkout = async function(req, res) {
             return res.send("Not authorized") //create ejs for error page.
         }
         //user authorized, okay to send workout object
-        res.send(workout)
+        let action = req.query.action
+	    if (action == "edit") {
+            return res.status(200).render('editWorkout', {workout: workout})
+        } else {
+            return res.status(200).render('viewWorkout', {workout: workout})
+        }
     } catch (err) {
         console.log(err)
         res.send({message: err.toString()})
@@ -50,6 +55,7 @@ createWorkout = async function(req, res) {
         }
         //set planId to the planId parameter [so they dont set thier own planId]
         workout.planId = req.params.planId
+        workout.username = username
         if (username != plan.username) {
             res.status(401)
             res.send("ERROR: Attempted to edit another user's workout plan")
@@ -69,7 +75,7 @@ createWorkout = async function(req, res) {
                 return res.send({message: err.toString()});
             }
         })
-        return res.send(created_workout)
+        return res.status(201).redirect("/plans/" + workout.planId)
 
     } catch (err) {
         console.log(err)
@@ -109,7 +115,7 @@ editWorkout = async function(req, res) {
                 return res.send({message: err.toString()});
             }
 
-            res.status(200).send(workout)
+            res.status(200).redirect("/workouts/" + req.params.planId + "/" + req.params.workoutId)
         })
 
     } catch (err) {
@@ -150,14 +156,13 @@ deleteWorkout = async function(req, res) {
             res.status(401)
             return res.send("ERROR: workout does not belong to the plan")
         }
-        //TODO: Remove workout _id from Workout Plan's workout array
         Workout.findByIdAndRemove(req.params.workoutId, (err) => {
             if (err) {
                 res.status(400) 
                 return res.send({message: err.toString()});
             } 
         })
-        return res.status(200).send("Workout Deleted")
+        return res.status(202).redirect("/plans/" + req.params.planId)
 
     } catch (err) {
         console.log(err)
@@ -184,7 +189,7 @@ async function validateReadPrivelege (username, object) {
             if (username == object.username) { //check if user is the owner
                 return true
             }
-            let subscribed = await isSubscribedTo(username, object.username)
+            let subscribed = isSubscribedTo(username, object.username)
             if (!subscribed) {
                 return false
             }

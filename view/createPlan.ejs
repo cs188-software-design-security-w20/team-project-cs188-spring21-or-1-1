@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Workout Plan </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            h5{display:inline}
+        </style>
+
+        <body>
+            <h1>Create Workout Plan</h1> 
+            <a href="https://workio.us/">Home </a> <hr>
+            <form action='/plans' method='post'>
+               
+                <div>
+                    <label for="name">Name: </label><br>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div>
+                    <label for="description">Description: </label><br>
+                    <textarea style="height: 20rem;" name="description" id="description"></textarea>
+                </div>
+                <div>
+                    <label for="type">Type: </label><br>
+                    <input type="radio" id="cardio" name="type" value="cardio">
+                    <label for="cardio">Cardio</label><br>
+                    <input type="radio" id="strength" name="type" value="strength">
+                    <label for="strength">Strength</label><br>
+                    <input type="radio" id="endurance" name="type" value="endurace">
+                    <label for="endurance">Endurance</label><br>
+                </div>
+                <div>
+                    <label for="difficulty">Difficulty (1-10): </label><br>
+                    <input type="number" name="difficulty" id="difficulty" min="0" max="10">
+                </div>
+                <div>
+                    <label for="privacy">Privacy: </label><br>
+                    <input type="radio" id="public" name="privacy" value="0" >
+                    <label for="public">Public</label><br>
+                    <input type="radio" id="private" name="privacy" value="1">
+                    <label for="private">Private</label><br>
+                </div>
+               
+                <button type="submit" name="action">Submit</button> 
+            </form>
+        </body>
+    </head>
+</html>

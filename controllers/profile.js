@@ -34,7 +34,8 @@ async function queryUser(req, res) {
 	console.log(profile)
 	res.render('profileTemplate', {
 	    username: username,
-	    plans: plans
+	    plans: plans,
+		email: profile.email
 	})
 	
     } catch (err) {
