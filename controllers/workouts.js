@@ -189,18 +189,22 @@ async function validateReadPrivelege (username, object) {
             if (username == object.username) { //check if user is the owner
                 return true
             }
-            let subscribed = isSubscribedTo(username, object.username)
-            if (!subscribed) {
-                return false
-            }
+            let subscribed = await isSubscribedTo(username, object.username)
+            return subscribed
             break
         default:
             return false
     }
 }
 
-function isSubscribedTo(username, creator) {
-    return false
+async function isSubscribedTo(username, creator) {
+    let user = await User.findOne({'username':username})
+    if(!user){
+        return false
+    }
+    console.log(user) 
+    let index = user.subscribedTo.indexOf(creator)
+    return (index > -1) || username == creator
 }
 
  module.exports = {

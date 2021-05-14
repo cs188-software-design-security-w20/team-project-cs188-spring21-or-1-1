@@ -20,6 +20,7 @@ const profileController = require('./controllers/profile')
 const planController = require('./controllers/plans')
 const workoutController = require('./controllers/workouts')
 const registrationController = require('./controllers/register')
+const subscribeController = require('./controllers/subscribe')
 const userController = require('./controllers/users')
 
 /* Security modules */
@@ -98,6 +99,8 @@ app.post('/workouts/:planId', sessionModule.authenticateSession, workoutControll
 app.post('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.editWorkout)
 app.delete('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.deleteWorkout)
 
+// subscribe routes
+app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeController.subscribe)
 
 /* Server Start Up */
 const port = 443 // HTTPS Only
@@ -113,3 +116,4 @@ https.createServer({
 // app.listen(port, () => {
 //     console.log(`Listening at port ${port}`)
 // })
+

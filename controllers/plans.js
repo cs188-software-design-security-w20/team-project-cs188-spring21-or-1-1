@@ -128,22 +128,32 @@ async function deletePlan(req, res, next) {
 }
 
 async function validateUserPrivilege (planId, username, privilege) {
-	let user = await User.exists({'username':username})
+	let user = await User.findOne({'username':username})
 	if (!user) {
+        console.log(username+" doesn't exist")
 		return false
 	}
 
 	let plan = await Workout_Plan.findOne({'_id':ObjectId(planId)})
 	if (!plan) {
+        console.log(planId + " doesn't exist")
 		return false
 	}
+    console.log(plan)
 	if(privilege == 'r'){
 		if(plan.privacy == 0) {
+            console.log("public")
 			return true
 		} else if (plan.privacy == 1) {
 			return plan.username == username
-		}
+		} else if (plan.privacy == 2) {
+            let owner = plan.username
+            let index = user.subscribedTo.indexOf(owner)
+            return (index > -1) || owner == username
+        }
 	} else if (privilege == 'w'){
+        console.log(username)
+        console.log(plan.username)
 		return plan.username == username
 	}
 	return true
