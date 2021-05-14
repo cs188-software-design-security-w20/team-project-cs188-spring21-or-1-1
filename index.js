@@ -98,6 +98,12 @@ app.post('/workouts/:planId', sessionModule.authenticateSession, workoutControll
 app.post('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.editWorkout)
 app.delete('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.deleteWorkout)
 
+// search get request
+app.get('/search', (req, res) => {
+    console.log("getting search page")
+    res.sendFile('search.html', {root: 'view/Frontend'})
+})
+app.post('/search', sessionModule.authenticateSession, planController.queryPlans)
 
 /* Server Start Up */
 const port = 443 // HTTPS Only
