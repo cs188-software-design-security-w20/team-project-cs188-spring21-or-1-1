@@ -52,7 +52,9 @@ const User = mongoose.model('User', new mongoose.Schema({
 function validateUser(user) {
     const schema = Joi.object({
         username: Joi.string().max(30).required(),
-        password: Joi.string().min(8).max(100).required(),
+        password: Joi.string().min(8).max(30).required()
+            .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+            .error(new Error("A password must be at least 8 characters and contain only alphanumeric characters")),
         salt: Joi.number().optional(),
         email: Joi.string().max(100).min(5).required().email(),
         height: Joi.number().min(0).max(500).optional(),

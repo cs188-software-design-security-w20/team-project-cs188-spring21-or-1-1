@@ -28,10 +28,10 @@ const pwModule = require('./security/pswModule.js')
 
 
 /* DB Configuration */
-const seeder = require('./config/seed')
+//const seeder = require('./config/seed')
 
 require("./config/dbConnection")();//open the mongo db 
-seeder().catch(error => console.log(error.stack));
+//seeder().catch(error => console.log(error.stack));
 
 
 
@@ -96,16 +96,16 @@ app.delete('/plans/:planId/:workoutId', workoutController.deleteWorkout)
 
 
 /* Server Start Up */
-const port = 443 // HTTPS Only
-https.createServer({
-    key: fs.readFileSync(process.env.KEY_PATH),
-    cert: fs.readFileSync(process.env.CERT_PATH)
-}, app).listen(port, () => {
-    console.log(`Listening at port ${port}`)
-})
+// const port = 443 // HTTPS Only
+// https.createServer({
+//     key: fs.readFileSync(process.env.KEY_PATH),
+//     cert: fs.readFileSync(process.env.CERT_PATH)
+// }, app).listen(port, () => {
+//     console.log(`Listening at port ${port}`)
+// })
 
 /* Uncomment this for old, unsecure server */
-/*const port = 8080
+const port = 8080
 app.listen(port, () => {
     console.log(`Listening at port ${port}`)
-})*/
+})
