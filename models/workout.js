@@ -33,9 +33,6 @@ const Workout = mongoose.model('Workout', new mongoose.Schema({
     bodyParts: {
         type: [ String ]
     },
-    workouts: {
-        type: [ Number ]
-    },
     privacy: {
         type: Number,
         min: 0,
@@ -52,7 +49,6 @@ function validateWorkout(workout) {
         type: Joi.string().min(0).max(100),
         difficulty: Joi.number().min(0).max(10),
         bodyParts: Joi.array().items(Joi.string()),
-        workouts: Joi.array().items(Joi.number()),
         privacy: Joi.number().min(0).max(2)
     }).unknown();
     
