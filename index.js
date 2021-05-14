@@ -21,6 +21,7 @@ const planController = require('./controllers/plans')
 const workoutController = require('./controllers/workouts')
 const registrationController = require('./controllers/register')
 const subscribeController = require('./controllers/subscribe')
+const userController = require('./controllers/users')
 
 /* Security modules */
 const sessionModule = require('./security/session.js')
@@ -69,6 +70,9 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 
 app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
 app.get('/profile/:username', sessionModule.authenticateSession, profileController.queryUser)
+
+// Added this for getting to see all registered users
+app.get('/users', sessionModule.authenticateSession, userController.queryUsers)
 
 // NOTE: Please check out controllers/profile.js for how to get your
 //       code to work line-by-line, it has to do with async/await
