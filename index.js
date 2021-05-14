@@ -97,23 +97,16 @@ app.delete('/workouts/:planId/:workoutId', sessionModule.authenticateSession, wo
 
 
 /* Server Start Up */
-// const port = 443 // HTTPS Only
-// https.createServer({
-//     key: fs.readFileSync(process.env.KEY_PATH),
-//     cert: fs.readFileSync(process.env.CERT_PATH)
-// }, app).listen(port, () => {
-//     console.log(`Listening at port ${port}`)
-// })
-
-/* Uncomment this for old, unsecure server */
-<<<<<<< HEAD
-const port = 8080
-app.listen(port, () => {
+const port = 443 // HTTPS Only
+https.createServer({
+    key: fs.readFileSync(process.env.KEY_PATH),
+    cert: fs.readFileSync(process.env.CERT_PATH)
+}, app).listen(port, () => {
     console.log(`Listening at port ${port}`)
 })
-=======
+
+/* Uncomment this for old, unsecure server */
 // const port = 8080
 // app.listen(port, () => {
 //     console.log(`Listening at port ${port}`)
 // })
->>>>>>> 755d8c99f066f1c47109bd8877b37f891c3aaedb
