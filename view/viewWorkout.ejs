@@ -30,6 +30,8 @@
                     Public
                 <% } else if (workout.privacy == "1") {%>
                     Private
+                <% } else if (workout.privacy == "2") {%>
+                    Subscribers Only
                 <% } %><br>
                 <a href="https://workio.us/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
                     Edit Workout</a>
