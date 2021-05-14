@@ -9,7 +9,10 @@ exports.registerUser = async function (req, res) {
     let user = new User({
         username: req.body.username,
         password: req.body.password,
-        email: req.body.email
+        email: req.body.email,
+        weight: req.body.weight,
+        height: req.body.height,
+        dob: req.body.dob
     })
     
     // Check if input matches schema
