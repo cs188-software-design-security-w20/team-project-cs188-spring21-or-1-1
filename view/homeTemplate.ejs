@@ -10,14 +10,23 @@
     </head>
     <body>
 	<div class="container">
-	    <h2>User: <%= username %></h2>
-	    <h3><%= username %>'s Plans:</h3>
+	    <h1>Home</h1>
+	    <h2>Welcome Back <%= username %></h2>
+	    <h3>Account Info:</h2>
+	    <p>Email: <%= email %></p>
+	    <p>Height: <%= height %></p>
+	    <p>Weight: <%= weight %></p>
+	    <p>Birthday: <%= dob %></p>
+	    <h3>Your Plans:</h3>
 	    <ul>
 	    <% plans.forEach((plan) => { %>
 		<li><a href=<%= "https://workio.us/plans/" + plan._id %> >
 		    Workout: <%= plan.name %> | Privacy Level: <%= plan.privacy %>
 		</a></li>
 	    <% }) %>
+	    </ul>
+		<a href="https://workio.us/plans?action=create">
+            Create New Plan</a>
         </body>
 	</div>
     </body>

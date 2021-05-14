@@ -6,8 +6,9 @@
         <style>
             h5{display:inline}
         </style>
-
-        <body>
+    </head>
+    <body>
+      <div class="container">
             <h1>Edit Workout</h1> 
 
             <form action='/workouts/<%= workout.planId%>/<%=workout._id%>' method='post'>
@@ -45,7 +46,6 @@
                 <input type="hidden" name="username" id="username" value="<%=workout.username %>">
 
             </form>
-
-        </body>
-    </head>
+      </div>
+    </body>
 </html>
