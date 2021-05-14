@@ -25,8 +25,6 @@ async function getPlan (req, res) {
 	let action = req.query.action
 	if (action == "edit") {
 		res.status(200).render('editPlan', {plan: plan})
-	} else if (action == "create") {
-		res.status(200).render('createWorkout', {planId: plan._id})
 	} else {
 		res.status(200).render('viewPlan', {plan: plan})
 	}
