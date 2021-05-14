@@ -32,6 +32,8 @@
                     Public
                 <% } else if (plan.privacy == "1") {%>
                     Private
+                <% } else if (plan.privacy == "2") {%>
+                    Subscribers Only
                 <% } %><br>
                 <a href="https://workio.us/plans/<%=plan._id%>?action=edit">
                     Edit Plan Information</a>
