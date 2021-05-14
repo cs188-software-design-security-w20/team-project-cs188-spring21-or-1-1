@@ -90,14 +90,16 @@ app.get('/plans/:planId/:action?', sessionModule.authenticateSession, planContro
 app.get('/plans/:action?', sessionModule.authenticateSession, (req, res) => { if (req.query.action == "create") {res.status(200).render('createPlan')}})
 app.post('/plans', sessionModule.authenticateSession, planController.createPlan)
 app.post('/plans/:planId', sessionModule.authenticateSession, planController.editPlan)
-app.delete('/plans/:planId',sessionModule.authenticateSession, planController.deletePlan)
+//delete workaround
+app.post('/delete/:planId',sessionModule.authenticateSession, planController.deletePlan)
 
 app.get('/workouts/:planId/:workoutId/:action?', sessionModule.authenticateSession, workoutController.getWorkout)
 app.get('/workouts/:planId/:action?', sessionModule.authenticateSession, (req, res) => {
     if (req.query.action == "create") {return res.status(200).render('createWorkout', {planId: req.params.planId})}})
 app.post('/workouts/:planId', sessionModule.authenticateSession, workoutController.createWorkout)
 app.post('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.editWorkout)
-app.delete('/workouts/:planId/:workoutId', sessionModule.authenticateSession, workoutController.deleteWorkout)
+//delete workaround
+app.post('/delete/:planId/:workoutId', sessionModule.authenticateSession, workoutController.deleteWorkout)
 
 // subscribe routes
 app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeController.subscribe)

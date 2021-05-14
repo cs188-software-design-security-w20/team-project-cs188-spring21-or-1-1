@@ -121,8 +121,7 @@ async function deletePlan(req, res, next) {
             res.status(400) //bad request
             return res.send({message: err.toString()});
         }
-        res.status(201)
-        res.send("Workout Plan Deleted")
+        res.status(202).redirect('/');
 	})
 
 }
