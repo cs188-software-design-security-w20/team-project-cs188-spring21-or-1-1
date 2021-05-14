@@ -12,9 +12,12 @@ async function queryProfile(req, res) {
 	    plans = await Plan.find({ 'username': username })
 	} catch (err) {}
 	console.log(profile, plans)
-	res.render('profileTemplate', {
+	res.render('homeTemplate', {
 	    username: username,
 	    email: profile.email,
+	    height: profile.height,
+	    weight: profile.weight,
+	    dob: profile.dob,
 	    plans: plans
 	})
     } catch (err) {
@@ -34,8 +37,7 @@ async function queryUser(req, res) {
 	console.log(profile)
 	res.render('profileTemplate', {
 	    username: username,
-	    plans: plans,
-		email: profile.email
+	    plans: plans
 	})
 	
     } catch (err) {

@@ -67,7 +67,6 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 //app.use("/login", login); 
 
 app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
-app.get('/profile', sessionModule.authenticateSession, profileController.queryProfile)
 app.get('/profile/:username', sessionModule.authenticateSession, profileController.queryUser)
 
 // NOTE: Please check out controllers/profile.js for how to get your

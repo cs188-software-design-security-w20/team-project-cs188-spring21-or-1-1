@@ -12,8 +12,10 @@
                 float:left
             }
         </style>
+	</head>
 
         <body>
+	  <div class="container">
             <h1>View Workout</h1>
             <a href="https://workio.us/plans/<%=workout.planId%>">Back to plan</a> <hr>
             <div class="description">
@@ -32,10 +34,6 @@
                 <a href="https://workio.us/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
                     Edit Workout</a>
             </div>
-            
-            <div>
-
-            </div>
+	    </div>
         </body>
-    </head>
 </html>

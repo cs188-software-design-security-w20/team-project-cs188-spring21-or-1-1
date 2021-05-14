@@ -6,8 +6,9 @@
         <style>
             h5{display:inline}
         </style>
-
-        <body>
+    </head>
+    <body>
+      <div class="container">
             <h1>Create Workout</h1> 
             <a href="https://workio.us/plans/<%=planId%>">Back to plan </a> <hr>
             <form action='/workouts/<%=planId%>' method='post'>
@@ -43,6 +44,6 @@
                
                 <button type="submit" name="action">Submit</button> 
             </form>
-        </body>
-    </head>
+      </div>
+    </body>
 </html>

@@ -12,11 +12,12 @@
                 float:left
             }
         </style>
-
-        <body>
+    </head>
+    <body>
+      <div class="container">
             <h1>View Workout Plan</h1>
             <a href="https://workio.us/">Home </a> <hr>
-            <div class="description">
+            <div class="description col-sm-6">
                 <h5>Name: </h5><%=plan.name%><br>
                 <h5>Author: </h5><%=plan.username%><br>
                 <h5>Description: </h5><%=plan.description%><br>
@@ -33,7 +34,7 @@
                     Edit Plan Information</a>
             </div>
 
-            <div class="workout">
+            <div class="workout col-sm-6">
                 <p>This plan includes the following workouts, in order: </p>
                 <% plan.workouts.forEach((workoutid, i) => { %>
                     <li><a href=<%= "https://workio.us/workouts/" + plan._id + "/" + workoutid + "/view" %> >
@@ -43,7 +44,6 @@
                 <a href="https://workio.us/workouts/<%=plan._id%>?action=create">
                     Add New Workout</a>
             </div>
-        
-        </body>
-    </head>
+      </div>
+    </body>
 </html>

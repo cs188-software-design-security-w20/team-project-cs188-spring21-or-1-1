@@ -6,9 +6,10 @@
         <style>
             h5{display:inline}
         </style>
-
-        <body>
-            <h1>Edit Workout Plan</h1> 
+    </head>
+    <body>
+	  <div class="container">
+          <h1>Edit Workout Plan</h1> 
             <a href="https://workio.us/plans/<%=plan._id%>">Back to plan </a> <hr>
             <form action='/plans/<%= plan._id %>' method='post'>
                
@@ -45,7 +46,6 @@
                 <input type="hidden" name="username" id="username" value="<%=plan.username %>">
 
             </form>
-
+	  </div>
         </body>
-    </head>
 </html>
