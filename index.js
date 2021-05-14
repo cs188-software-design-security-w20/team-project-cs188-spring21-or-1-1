@@ -105,17 +105,17 @@ app.post('/delete/:planId/:workoutId', sessionModule.authenticateSession, workou
 app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeController.subscribe)
 
 /* Server Start Up */
-// const port = 443 // HTTPS Only
-// https.createServer({
-//     key: fs.readFileSync(process.env.KEY_PATH),
-//     cert: fs.readFileSync(process.env.CERT_PATH)
-// }, app).listen(port, () => {
-//     console.log(`Listening at port ${port}`)
-// })
-
-/* Uncomment this for old, unsecure server */
-const port = 8080
-app.listen(port, () => {
+const port = 443 // HTTPS Only
+https.createServer({
+    key: fs.readFileSync(process.env.KEY_PATH),
+    cert: fs.readFileSync(process.env.CERT_PATH)
+}, app).listen(port, () => {
     console.log(`Listening at port ${port}`)
 })
+
+/* Uncomment this for old, unsecure server */
+// const port = 8080
+// app.listen(port, () => {
+//     console.log(`Listening at port ${port}`)
+// })
 
