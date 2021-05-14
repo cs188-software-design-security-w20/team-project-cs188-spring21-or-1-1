@@ -32,6 +32,42 @@ async function getPlan (req, res) {
 	}
 }
 
+async function queryPlans(req, res) {
+
+    let name_value = req.body.name
+    let difficulty_value = parseInt(req.body.difficulty)
+
+	console.log("(search) Name, Difficulty: ")
+	console.log(name_value)
+	console.log(difficulty_value)
+
+    let plans = []
+    query = {}
+
+    if (name_value != "") {
+        if (difficulty_value != 0) {
+            query = { 'difficulty': difficulty_value, 'name': name_value }
+        } else {
+            query = { 'name': name_value }
+        }
+    } else {
+        if (difficulty_value != 0) {
+            query = { 'difficulty': difficulty_value}
+        }
+    }
+
+    try {
+        plans = await Workout_Plan.find(query)
+    } catch (err) {console.log("ERROR: No workouts found for this difficulty")}
+
+    console.log(plans)
+    res.render('searchTemplate', {
+        name: name_value,
+        difficulty: difficulty_value,
+        plans: plans
+    })
+}
+
 async function createPlan(req, res, next) {
     let planInfo = req.body
 	planInfo.username = await sessionModule.getUserByToken(req.cookies.token)
@@ -171,3 +207,5 @@ exports.getPlan = getPlan
 exports.createPlan = createPlan
 exports.editPlan = editPlan
 exports.deletePlan = deletePlan
+
+exports.queryPlans = queryPlans

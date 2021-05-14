@@ -104,6 +104,13 @@ app.post('/delete/:planId/:workoutId', sessionModule.authenticateSession, workou
 // subscribe routes
 app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeController.subscribe)
 
+// search get request
+app.get('/search', (req, res) => {
+    console.log("getting search page")
+    res.sendFile('search.html', {root: 'view/Frontend'})
+})
+app.post('/search', sessionModule.authenticateSession, planController.queryPlans)
+
 /* Server Start Up */
 const port = 443 // HTTPS Only
 https.createServer({
