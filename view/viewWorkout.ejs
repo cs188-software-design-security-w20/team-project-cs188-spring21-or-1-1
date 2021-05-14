@@ -11,6 +11,9 @@
             .workout{
                 float:left
             }
+            .button{
+                background-color: #f09892
+            }
         </style>
 	</head>
 
@@ -33,6 +36,11 @@
                 <% } %><br>
                 <a href="https://workio.us/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
                     Edit Workout</a>
+                <div>
+                    <form action='/delete/<%=workout.planId%>/<%=workout._id%>' method='post'>
+                        <button class="button" type="submit" name="action">Delete Workout</button>
+                    </form>
+                </div>
             </div>
 	    </div>
         </body>
