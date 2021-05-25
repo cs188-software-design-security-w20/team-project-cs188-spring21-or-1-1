@@ -26,6 +26,7 @@ const userController = require('./controllers/users')
 /* Security modules */
 const sessionModule = require('./security/session.js')
 const pwModule = require('./security/pswModule.js')
+const helmet = require('helmet')
 
 
 
@@ -43,6 +44,7 @@ require("./config/dbConnection")();//open the mongo db
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(helmet())
 app.set('view engine', 'ejs') // Necessary for rendering ejs
 app.set('views', path.join(__dirname, 'view'))
 
@@ -69,6 +71,14 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 //app.use("/login", login); 
 
 app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
+
+app.get('/logout', (req, res, next) => {
+	console.log("logging out");
+	next();
+	res.redirect('/login');
+	
+},pwModule.logout );
+
 app.get('/profile/:username', sessionModule.authenticateSession, profileController.queryUser)
 
 // Added this for getting to see all registered users
