@@ -17,7 +17,7 @@ exports.registerUser = async function (req, res) {
     
     // Check if input matches schema
     const { error, value } = validate(user);
-    console.log(value);
+    //console.log(value);
     if ( error ) {
         console.log(error);
         return res.status(422).send(error.message);
@@ -30,7 +30,7 @@ exports.registerUser = async function (req, res) {
     }
     
     // Generate password salt for security I moved this to the security module
-    if(pswMaker.hashGen(user,saltRounds))
+    if(pswMaker.hashGen(user,saltRounds,value))
         res.redirect('/login');
 
 }

@@ -69,6 +69,14 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 //app.use("/login", login); 
 
 app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
+
+app.get('/logout', (req, res, next) => {
+	console.log("logging out");
+	next();
+	res.redirect('/login');
+	
+},pwModule.logout );
+
 app.get('/profile/:username', sessionModule.authenticateSession, profileController.queryUser)
 
 // Added this for getting to see all registered users
