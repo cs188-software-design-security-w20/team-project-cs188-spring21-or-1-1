@@ -13,11 +13,11 @@
 	    <h2>User: <%= username %></h2>
 	    <h3><%= username %>'s Plans:</h3>
 	    <ul>
-        <form action=<%= "https://workio.us/subscribe/" + username %> method="post">
+        <form action=<%= "https://workioucla.com/subscribe/" + username %> method="post">
             <input type="submit" value="Subscribe" />
         </form>
 	    <% plans.forEach((plan) => { %>
-		<li><a href=<%= "https://workio.us/plans/" + plan._id %> >
+		<li><a href=<%= "https://workioucla.com/plans/" + plan._id %> >
 		    Workout: <%= plan.name %> | Privacy Level: <%= plan.privacy %>
 		</a></li>
 	    <% }) %>

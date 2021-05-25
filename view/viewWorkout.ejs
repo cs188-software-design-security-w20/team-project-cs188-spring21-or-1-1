@@ -20,7 +20,7 @@
         <body>
 	  <div class="container">
             <h1>View Workout</h1>
-            <a href="https://workio.us/plans/<%=workout.planId%>">Back to plan</a> <hr>
+            <a href="https://workioucla.com/plans/<%=workout.planId%>">Back to plan</a> <hr>
             <div class="description">
                 <h5>Name: </h5><%=workout.name%><br>
                 <h5>Author: </h5><%=workout.username%><br>
@@ -36,7 +36,7 @@
                 <% } else if (workout.privacy == "2") {%>
                     Subscribers Only
                 <% } %><br>
-                <a href="https://workio.us/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
+                <a href="https://workioucla.com/workouts/<%=workout.planId%>/<%=workout._id%>?action=edit">
                     Edit Workout</a>
                 <div>
                     <form action='/delete/<%=workout.planId%>/<%=workout._id%>' method='post'>
