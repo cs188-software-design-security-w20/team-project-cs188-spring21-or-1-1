@@ -53,8 +53,8 @@ function validateUser(user) {
     const schema = Joi.object({
         username: Joi.string().max(30).required(),
         password: Joi.string().min(8).max(30).required()
-            .pattern(new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&]){8,}"))
-            .error(new Error("A password must be at least 8 characters, 1 lowercase letter, contain at least 1 special character, and at least 1 number")),
+            .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&]){10,}"))
+            .error(new Error("A password must be at least 10 characters, 1 lowercase letter, contain at least 1 special character, and at least 1 number")),
         salt: Joi.number().optional(),
         email: Joi.string().max(100).min(5).required().email(),
         height: Joi.number().min(0).max(500).optional().allow(null),
