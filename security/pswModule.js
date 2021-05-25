@@ -17,9 +17,9 @@ exports.hashGen = async function (user, saltRounds, value){
 					console.log(err);
 	                return res.status(422).json({err});
 				}else {
-						console.log(hash);
 	                    user.password = hash;
 	                    value.password = hash;
+	                    console.log(value);
 	                    await user.save(async function (err, user) {
 	                        if (err) {
 	                            console.log("Error inserting into database");
@@ -28,7 +28,7 @@ exports.hashGen = async function (user, saltRounds, value){
                         console.log(user.username + " added to the database");
                         console.log(user.email + " email added to the database");
                         //res.send("User successfully registered");
-                        console.log(value);
+                        
                         return true;
 	            })
 			}
@@ -71,7 +71,17 @@ exports.logout = async function(req,res){
 	mongoose.set('useFindAndModify', false);
 
 	console.log("logout is called");
-	await Session.findOneAndRemove({'token':req.cookies.token});
+	try{
+		if(await Session.findOne({'token':req.cookies.token})){
+			await Session.findOneAndRemove({'token':req.cookies.token});
+		}else{
+			return;
+		} 
+
+	}catch(err){
+		res.send(err);
+	}
+
 	console.log("Done deleting the session");
 }
 
