@@ -26,6 +26,7 @@ const userController = require('./controllers/users')
 /* Security modules */
 const sessionModule = require('./security/session.js')
 const pwModule = require('./security/pswModule.js')
+const helmet = require('helmet')
 
 
 
@@ -43,6 +44,7 @@ require("./config/dbConnection")();//open the mongo db
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(helmet())
 app.set('view engine', 'ejs') // Necessary for rendering ejs
 app.set('views', path.join(__dirname, 'view'))
 
