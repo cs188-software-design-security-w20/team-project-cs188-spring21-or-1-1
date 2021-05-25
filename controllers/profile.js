@@ -11,6 +11,10 @@ async function queryProfile(req, res) {
 	try {
 	    plans = await Plan.find({ 'username': username })
 	} catch (err) {}
+	let subscribers = []
+	try {
+	    subscribers = await User.find({ 'subscribedTo' : { $in : [username] }})
+	} catch (err) {}
 	console.log(profile, plans)
 	res.render('homeTemplate', {
 	    username: username,
@@ -18,7 +22,9 @@ async function queryProfile(req, res) {
 	    height: profile.height,
 	    weight: profile.weight,
 	    dob: profile.dob,
-	    plans: plans
+	    plans: plans,
+	    subscribers: subscribers,
+	    subscribedTo: profile.subscribedTo
 	})
     } catch (err) {
 	console.log(err)

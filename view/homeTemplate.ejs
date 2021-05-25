@@ -26,6 +26,23 @@
 		</a></li>
 	    <% }) %>
 	    </ul>
+	    <h3>Your Subscriptions:</h3>
+	    <ul>
+		<% subscribedTo.forEach((uname) => { %>
+		    <li><a href=<%= "https://workioucla.com/profile/" + uname %> >
+			<%= uname %>
+		    </a></li>
+		<% }) %>
+	    </ul>
+	    <h3>Your Subscribers:</h3>
+	    <ul>
+		<% subscribers.forEach((subscriber) => { %>
+		    <li><a href=<%= "https://workioucla.com/profile/" + subscriber.username %> >
+			<%= subscriber.username %>
+		    </a></li>
+		<% }) %>
+	    </ul>
+	    <br>
 	    <a href="https://workioucla.com/plans?action=create">
 		Create New Plan</a><br>
 	    <a href="https://workioucla.com/users">
