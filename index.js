@@ -114,6 +114,9 @@ app.post('/delete/:planId/:workoutId', sessionModule.authenticateSession, workou
 // subscribe routes
 app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeController.subscribe)
 
+// unsubscribe routes
+app.post('/unsubscribe/:username', sessionModule.authenticateSession, subscribeController.unsubscribe)
+
 // search get request
 app.get('/search', (req, res) => {
     console.log("getting search page")

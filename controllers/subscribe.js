@@ -28,6 +28,9 @@ async function subscribe(req, res) {
             })
         }        
         let subscribed_user = await User.findOne({'username':subscribeTo})
+        if(!subscribed_user) {
+            return res.send("ERROR: User does not exist!")
+        }
         let subscriber_list = subscribed_user.subscribers
         // check if already subscribed
         const index2 = subscriber_list.indexOf(username)
@@ -47,4 +50,51 @@ async function subscribe(req, res) {
     }    
 }
 
+async function unsubscribe(req, res) {
+    try {
+	    let cur_username = await sessionModule.getUserByToken(req.cookies.token)
+        let unsubscribed_username = req.params.username
+        let cur_user = await User.findOne({'username':cur_username})
+        if(!cur_user) {
+            return res.send("ERROR: User does not exist!")
+        }
+        let unsubscribed_user = await User.findOne({'username':unsubscribed_username})
+        if(!unsubscribed_user){
+            return res.send("ERROR: User does not exist!")
+        }
+        let subscribedTo_list = cur_user.subscribedTo
+        const index = subscribedTo_list.indexOf(unsubscribed_username)
+        if (index > -1) {
+            subscribedTo_list.splice(index, 1)
+            console.log(subscribedTo_list)
+        } else {
+            return res.send("ERROR: not subscribed to this user!")
+        }
+        let subscribers_list = unsubscribed_user.subscribers
+        const index2 = subscribers_list.indexOf(cur_username)
+        if (index2 > -1) {
+            subscribers_list.splice(index2, 1)
+        } else {
+            return res.send("ERROR: Incoherent data, please contatct the admin")   
+        }
+        User.findOneAndUpdate({'username':unsubscribed_username}, {'subscribers':subscribers_list}, (err, user) => {
+            if(err) {
+                res.send({message:err.toString()})
+            }
+        })
+        User.findOneAndUpdate({'username':cur_username}, {'subscribedTo':subscribedTo_list}, (err, user) => {
+            if(err) {
+                res.send({message:err.toString()})
+            }
+        })
+
+        return res.status(201).send("Unsubscibed Successfully")
+
+    } catch (err) {
+        console.log(err)
+        res.send("ERROR")
+    }
+}
+
+exports.unsubscribe = unsubscribe
 exports.subscribe = subscribe
