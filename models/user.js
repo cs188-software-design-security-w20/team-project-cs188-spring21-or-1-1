@@ -41,10 +41,7 @@ const User = mongoose.model('User', new mongoose.Schema({
     dob: {
         type: Date
     },
-    subscribers: {
-        type: Number,
-        minlength: 0
-    },
+    subscribers: [ String ],
     subscribedTo:[ String ], 
     favorites: [ Number ]
 }));
@@ -61,7 +58,7 @@ function validateUser(user) {
         weight: Joi.number().min(0).max(1000).optional().allow(null),
         fitnessLevel: Joi.string().min(0).max(300).optional(),
         dob: Joi.date().optional().allow(null),
-        subscribers: Joi.number().min(0).optional(),
+        subscribers: Joi.array().items(Joi.string().optional()).optional().sparse(),
         subscribedTo: Joi.array().items(Joi.string().optional()).optional().sparse(),
         favorites: Joi.array().items(Joi.number().optional()).optional().sparse()
     }).unknown();
