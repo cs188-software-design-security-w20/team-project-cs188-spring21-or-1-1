@@ -66,9 +66,7 @@ createWorkout = async function(req, res) {
         }
         //Good to go
         let created_workout = await Workout.create(workout)
-        plan.workouts.push(created_workout._id)
-        console.log(plan.workouts)
-        Workout_Plan.findByIdAndUpdate(req.params.planId, {"workouts":plan.workouts}, (err, plan) => {
+        Workout_Plan.findByIdAndUpdate(req.params.planId, {$addToSet: {"workouts":created_workout._id}}, (err, plan) => {
             if (err) {
                 res.status(400) //bad request
                 return res.send({message: err.toString()});
@@ -141,20 +139,13 @@ deleteWorkout = async function(req, res) {
             return res.send("ERROR: Attempted to edit another user's workout plan")
         }
 
-        const index = plan.workouts.indexOf(req.params.workoutId)
-        if(index > -1){
-            plan.workouts.splice(index,1)
-            Workout_Plan.findByIdAndUpdate(req.params.planId, {"workouts":plan.workouts}, (err, plan) => {
-                if (err) {
-                    res.status(400) //bad request
-                    return res.send({message: err.toString()});
-                }
-            })
+        Workout_Plan.findByIdAndUpdate(req.params.planId, {$pull : {"workouts":req.params.workoutId}}, (err, plan) => {
+            if (err) {
+                res.status(400) //bad request
+                return res.send({message: err.toString()});
+            }
+        })
 
-        } else {
-            res.status(401)
-            return res.send("ERROR: workout does not belong to the plan")
-        }
         Workout.findByIdAndRemove(req.params.workoutId, (err) => {
             if (err) {
                 res.status(400) 

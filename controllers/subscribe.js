@@ -13,36 +13,24 @@ async function subscribe(req, res) {
         if (username == subscribeTo) {
             return res.send("ERROR: You cannot subscribe to yourself")
         }
-        console.log(subscribeTo)
         let cur_user = await User.findOne({'username':username})
-        let subscribe_list = cur_user.subscribedTo
-        console.log(subscribe_list)
-        // check if already subscribed
-        const index = subscribe_list.indexOf(subscribeTo)
-        if(index <= -1) {
-            subscribe_list.push(subscribeTo)
-            User.findOneAndUpdate({'username':username}, {'subscribedTo':subscribe_list}, (err, user) => {
-                if(err) {
-                    res.send({message:err.toString()})
-                }
-            })
-        }        
         let subscribed_user = await User.findOne({'username':subscribeTo})
         if(!subscribed_user) {
             return res.send("ERROR: User does not exist!")
         }
-        let subscriber_list = subscribed_user.subscribers
         // check if already subscribed
-        const index2 = subscriber_list.indexOf(username)
-        if(index2 <= -1) {
-            subscriber_list.push(username)
-            User.findOneAndUpdate({'username':subscribeTo}, {'subscribers':subscriber_list}, (err, user) => {
-                if(err) {
-                    res.send({message:err.toString()})
-                }
-            })
-        }        
         
+        User.findOneAndUpdate({'username':username}, { $addToSet: {'subscribedTo':subscribeTo} }, (err, user) => {
+            if(err) {
+                res.send({message:err.toString()})
+            }
+        })
+        // check if already subscribed
+        User.findOneAndUpdate({'username':subscribeTo}, { $addToSet: {'subscribers': username} }, (err, user) => {
+            if(err) {
+                res.send({message:err.toString()})
+            }
+        })
         return res.status(201).send("Subscibed Successfully")
     } catch (err) {
 	    console.log(err)
@@ -77,12 +65,12 @@ async function unsubscribe(req, res) {
         } else {
             return res.send("ERROR: Incoherent data, please contatct the admin")   
         }
-        User.findOneAndUpdate({'username':unsubscribed_username}, {'subscribers':subscribers_list}, (err, user) => {
+        User.findOneAndUpdate({'username':unsubscribed_username}, { $pull: {'subscribers': cur_username}}, (err, user) => {
             if(err) {
                 res.send({message:err.toString()})
             }
         })
-        User.findOneAndUpdate({'username':cur_username}, {'subscribedTo':subscribedTo_list}, (err, user) => {
+        User.findOneAndUpdate({'username':cur_username}, { $pull: {'subscribedTo':unsubscribed_username}}, (err, user) => {
             if(err) {
                 res.send({message:err.toString()})
             }
