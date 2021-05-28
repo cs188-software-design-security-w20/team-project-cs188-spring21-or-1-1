@@ -16,6 +16,9 @@
         <form action=<%= "https://workioucla.com/subscribe/" + username %> method="post">
             <input type="submit" value="Subscribe" />
         </form>
+        <form action=<%= "https://workioucla.com/unsubscribe/" + username %> method="post" <% if (not_subscribed) { %> hidden=true <% } %>>
+            <input type="submit" value="Unsubscribe" />
+        </form>
 	    <% plans.forEach((plan) => { %>
 		<li><a href=<%= "https://workioucla.com/plans/" + plan._id %> >
 		    Workout: <%= plan.name %> | Privacy Level: <%= plan.privacy %>
