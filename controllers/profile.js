@@ -36,6 +36,11 @@ async function queryUser(req, res) {
     try {
 	let username = req.params.username
 	let profile = await User.findOne({ 'username': username })
+	let cur_username = await sessionModule.getUserByToken(req.cookies.token)
+    let not_subscribed = true
+    if (profile.subscribers.indexOf(cur_username) > -1) {
+        not_subscribed = false
+    }
 	let plans = []
 	try {
 	    plans = await Plan.find({ 'username': username })
@@ -43,7 +48,8 @@ async function queryUser(req, res) {
 	console.log(profile)
 	res.render('profileTemplate', {
 	    username: username,
-	    plans: plans
+	    plans: plans,
+        not_subscribed: not_subscribed
 	})
 	
     } catch (err) {
