@@ -26,7 +26,8 @@ getWorkout = async function(req, res) {
 		    return res.status(401).send("Workout plan not found")
 	    } else {
             let valid = await validateReadPrivelege(username, plan)
-            if (!valid) {res.status(401).send("Not authorized to be viewing workoutPlan")}
+            if (!valid) {return res.status(401).send("Not authorized to be viewing workoutPlan")}
+            
         }
 
         //check if user is authorized to read said workout object
