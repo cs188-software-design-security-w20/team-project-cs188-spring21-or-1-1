@@ -17,7 +17,6 @@ exports.registerUser = async function (req, res) {
     
     // Check if input matches schema
     const { error, value } = validate(user);
-    //console.log(value);
     if ( error ) {
         console.log(error);
         return res.status(422).send(error.message);
