@@ -8,7 +8,7 @@ const Session = mongoose.model('Session', new mongoose.Schema({
     },
     username: {
 	type: String,
-	unique: true
+	required: true,
     },
     createdAt: {
 	type: Date,
