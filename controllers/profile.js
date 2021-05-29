@@ -11,11 +11,11 @@ async function queryProfile(req, res) {
 	try {
 	    plans = await Plan.find({ 'username': username })
 	} catch (err) {}
-	let subscribers = []
+	/*let subscribers = []
 	try {
 	    subscribers = await User.find({ 'subscribedTo' : { $in : [username] }})
 	} catch (err) {}
-	console.log(profile, plans)
+	console.log(profile, plans)*/
 	res.render('homeTemplate', {
 	    username: username,
 	    email: profile.email,
@@ -23,7 +23,7 @@ async function queryProfile(req, res) {
 	    weight: profile.weight,
 	    dob: profile.dob,
 	    plans: plans,
-	    subscribers: subscribers,
+	    subscribers: profile.subscribers,
 	    subscribedTo: profile.subscribedTo
 	})
     } catch (err) {
@@ -37,7 +37,7 @@ async function queryUser(req, res) {
 	let username = req.params.username
 	let profile = await User.findOne({ 'username': username })
 	let cur_username = await sessionModule.getUserByToken(req.cookies.token)
-    let not_subscribed = true
+	let not_subscribed = true
     if (profile.subscribers.indexOf(cur_username) > -1) {
         not_subscribed = false
     }
@@ -49,7 +49,7 @@ async function queryUser(req, res) {
 	res.render('profileTemplate', {
 	    username: username,
 	    plans: plans,
-        not_subscribed: not_subscribed
+            not_subscribed: not_subscribed
 	})
 	
     } catch (err) {
