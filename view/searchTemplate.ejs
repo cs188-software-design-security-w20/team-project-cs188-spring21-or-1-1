@@ -15,7 +15,7 @@
 	    <p>Difficulty: <%= difficulty %></p>
 	    <ul>
 	    <% plans.forEach((plan) => { %>
-		<li><a href=<%= "https://workioucla.com/plan/" + plan.planId %> >
+		<li><a href=<%= "https://workioucla.com/plans/" + plan._id %> >
 		    Workout: <%= plan.name %> | Difficulty: <%= plan.difficulty %> | Privacy Level: <%= plan.privacy %>
 		</a></li>
 	    <% }) %>
