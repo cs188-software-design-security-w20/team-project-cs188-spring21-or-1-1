@@ -19,12 +19,22 @@ getWorkout = async function(req, res) {
             console.log("find workout failed")
             return res.status(404).send("Not Found")
         }
+        //check to see if user is authorized to read the workout plan that this workout is in
+        let plan = await Workout_Plan.findById(workout.planId)
+        if (!plan) {
+		    console.log("Workout plan not found")
+		    return res.status(401).send("Workout plan not found")
+	    } else {
+            let valid = await validateReadPrivelege(username, plan)
+            if (!valid) {res.status(401).send("Not authorized to be viewing workoutPlan")}
+        }
+
         //check if user is authorized to read said workout object
         let valid = await validateReadPrivelege(username, workout)
         if (!valid) {
             console.log("Not allowed to view")
             res.status(401)
-            return res.send("Not authorized") //create ejs for error page.
+            return res.send("Not authorized") 
         }
         //user authorized, okay to send workout object
         let action = req.query.action
@@ -42,14 +52,13 @@ getWorkout = async function(req, res) {
 createWorkout = async function(req, res) {
     try {
         let workout = req.body
-        // let username = "Hunter"
 	    let username = await sessionModule.getUserByToken(req.cookies.token)
         if (!username) {
             console.log("getUserByToken failed")
             return res.status(401).send("Not logged in");
         }
         let plan = await Workout_Plan.findById(req.params.planId)
-       if (!plan) { 
+        if (!plan) { 
             console.log("Plan does not exist")
             return res.status(400).send("ERROR: Plan does not exist")
         }
