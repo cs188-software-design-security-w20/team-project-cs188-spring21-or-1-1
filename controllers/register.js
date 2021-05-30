@@ -6,6 +6,7 @@ const saltRounds = 10;
 
 exports.registerUser = async function (req, res) {
     console.log("calling the controller");
+    
     let user = new User({
         username: req.body.username,
         password: req.body.password,
@@ -16,6 +17,7 @@ exports.registerUser = async function (req, res) {
     })
     
     // Check if input matches schema
+
     const { error, value } = validate(user);
     if ( error ) {
         console.log(error);
@@ -23,9 +25,13 @@ exports.registerUser = async function (req, res) {
     }
 
     // Check if existing user is in the database
-    let duplicate = await User.findOne({ username: req.body.username });
-    if (duplicate != null) {
-        return res.status(400).send("That username already taken!");
+    try{
+        let duplicate = await User.findOne({ username: req.body.username });
+        if (duplicate != null) {
+            return res.status(400).send("That username already taken!");
+        }
+    }catch(err){
+        
     }
     
     // Generate password salt for security I moved this to the security module

@@ -54,10 +54,10 @@ function validateUser(user) {
             .error(new Error("A password must be at least 10 characters, 1 lowercase letter, contain at least 1 special character, and at least 1 number")),
         salt: Joi.number().optional(),
         email: Joi.string().max(100).min(5).required().email(),
-        height: Joi.number().min(0).max(500).optional().allow(null),
-        weight: Joi.number().min(0).max(1000).optional().allow(null),
+        height: Joi.number().min(0).max(500).required().error(new Error("height must contain only numbers in cm")),
+        weight: Joi.number().min(0).max(1000).required().error(new Error("weight must contain only numbers in kg")),
         fitnessLevel: Joi.string().min(0).max(300).optional(),
-        dob: Joi.date().optional().allow(null),
+        dob: Joi.date().optional().required(),
         subscribers: Joi.array().items(Joi.string().optional()).optional().sparse(),
         subscribedTo: Joi.array().items(Joi.string().optional()).optional().sparse(),
         favorites: Joi.array().items(Joi.number().optional()).optional().sparse()

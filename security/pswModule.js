@@ -20,17 +20,25 @@ exports.hashGen = async function (user, saltRounds, value){
 	                    user.password = hash;
 	                    value.password = hash;
 	                    console.log(value);
-	                    await user.save(async function (err, user) {
-	                        if (err) {
-	                            console.log("Error inserting into database");
-	                            //res.status(422).json({err});
+	                    try{
+	                    	await user.save()
+	                    	console.log(user.username + " added to the database");
+                            return true;
+	                    } catch(err){
+	                    	console.log("Error inserting into database");
+	                    	res.status(422).send({err});
 	                    }
-                        console.log(user.username + " added to the database");
-                        console.log(user.email + " email added to the database");
-                        //res.send("User successfully registered");
+	              //       await user.save(async function (err) {
+	              //           if (err) {
+	              //               console.log("Error inserting into database");
+	              //               //res.status(422).json({err});
+	              //       } 
+               //          console.log(user.username + " added to the database");
+               //          console.log(user.email + " email added to the database");
+               //          //res.send("User successfully registered");
                         
-                        return true;
-	            })
+               //          return true;
+	            		// })
 			}
 		})
 	   }
