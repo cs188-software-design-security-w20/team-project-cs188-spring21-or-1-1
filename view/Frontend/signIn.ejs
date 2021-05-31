@@ -36,6 +36,7 @@
     
 <main class="form-signin">
   <form  id="login-form" action="/login" method="POST">
+    <input type= hidden name= _csrf value = "<%=csrfToken%>">
     <img class="mb-4" src="images/symbol.jpg" alt="" width="300" height="142">
     <!--h1 class="h3 mb-3 fw-normal">Work.I.O</h1-->
     <div class="form-floating">

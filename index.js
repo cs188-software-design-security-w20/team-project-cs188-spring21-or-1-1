@@ -27,8 +27,10 @@ const userController = require('./controllers/users')
 const sessionModule = require('./security/session.js')
 const pwModule = require('./security/pswModule.js')
 const helmet = require('helmet')
+const csrf = require('csurf')
 
-
+// Setup middleware
+var csrfProtection = csrf({ cookie: true })
 
 /* DB Configuration */
 //const seeder = require('./config/seed')
@@ -58,12 +60,12 @@ app.use(express.static(__dirname + '/view/Frontend'));
 
 /* Route Handlers */
 
-app.get('/login', (req, res) => {
+app.get('/login', csrfProtection, (req, res) => {
     console.log("getting the login ");
-    res.sendFile('signIn.html',{root:'view/Frontend'});
+    res.render('Frontend/signIn',{root:'view/Frontend', csrfToken: req.csrfToken()});
 });
 
-app.post('/login',pwModule.pswVerification, sessionModule.createSession); 
+app.post('/login', csrfProtection, pwModule.pswVerification, sessionModule.createSession); 
 //verify password within createSession 
 //put the password ver
 
@@ -72,7 +74,7 @@ app.post('/login',pwModule.pswVerification, sessionModule.createSession);
 
 app.get('/', sessionModule.authenticateSession, profileController.queryProfile)
 
-app.get('/logout', (req, res, next) => {
+app.get('/logout',(req, res, next) => {
 	console.log("logging out");
 	next();
 	res.redirect('/login');
@@ -88,12 +90,12 @@ app.get('/users', sessionModule.authenticateSession, userController.queryUsers)
 //       code to work line-by-line, it has to do with async/await
 //       and its worth the investment trying to figure out why profile.js
 //       works so you can write your own controllers in a way that works for Node
-app.get('/register', (req, res)=>{
+app.get('/register', csrfProtection, (req, res)=>{
 	console.log("getting the signUp");
-	res.sendFile('signUp.html', {root: 'view/Frontend'});
+	res.render('Frontend/signUp', {root: 'view/Frontend', csrfToken: req.csrfToken()});
 });
 // May refactor this later, handling responses should probably be here and not in the controller
-app.post('/register', registrationController.registerUser)
+app.post('/register', csrfProtection, registrationController.registerUser)
 
 //app.use('/plans', sessionModule.authenticateSession)
 app.get('/plans/:planId/:action?', sessionModule.authenticateSession, planController.getPlan)
@@ -118,11 +120,11 @@ app.post('/subscribe/:username', sessionModule.authenticateSession, subscribeCon
 app.post('/unsubscribe/:username', sessionModule.authenticateSession, subscribeController.unsubscribe)
 
 // search get request
-app.get('/search', (req, res) => {
+app.get('/search', csrfProtection, (req, res) => {
     console.log("getting search page")
-    res.sendFile('search.html', {root: 'view/Frontend'})
+    res.render('Frotnend/search', {root: 'view/Frontend', csrfToken: req.csrfToken()})
 })
-app.post('/search', sessionModule.authenticateSession, planController.queryPlans)
+app.post('/search', csrfProtection, sessionModule.authenticateSession, planController.queryPlans)
 
 /* Server Start Up */
 const port = 443 // HTTPS Only
@@ -138,4 +140,3 @@ https.createServer({
 // app.listen(port, () => {
 //     console.log(`Listening at port ${port}`)
 // })
-
