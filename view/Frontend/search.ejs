@@ -20,6 +20,7 @@
     
 <main class="form-search">
   <form  id="search-form" action="/search" method="POST">
+    <input type = "hidden" name = "_csrf" value = "<%=csrfToken%>">
     <img class="mb-0 mt-0" src="images/symbol.jpg" alt="" width="300" height="142">
     <h1 class="h2 mb-0 fw-normal">Search</h1>
     <b>
