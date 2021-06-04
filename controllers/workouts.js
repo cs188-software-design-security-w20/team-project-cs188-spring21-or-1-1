@@ -108,7 +108,7 @@ editWorkout = async function(req, res) {
         updated_workout.planId = req.params.planId
         if (username != plan.username) {
             res.status(401)
-            res.send("ERROR: Attempted to edit another user's workout plan")
+            return res.send("ERROR: Attempted to edit another user's workout plan")
         }
         // Check if input matches schema
         const {error, value} = validate(updated_workout);
